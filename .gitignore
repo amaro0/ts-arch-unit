@@ -107,5 +107,5 @@ _test-fiddles
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
 
-ast-tests.ts
+*scratch*
 

@@ -8,6 +8,7 @@
   "scripts": {
     "prebuild": "rm -rf dist",
     "start": "ts-node -T ./src/index.ts",
+    "start:ast-scratch": "ts-node-dev --respawn src/ast-scratch.ts",
     "scratch": "ts-node-dev --respawn ./src/scratch.ts",
     "format": "prettier --check \"./**/*.ts\"",
     "format:fix": "prettier --write \"./**/*.ts\"",
