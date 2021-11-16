@@ -37,7 +37,11 @@ export class ProjectMetaCrawler {
     });
   }
 
-  getClassByName(name: string): ClassDeclaration | undefined {
-    return this.classesArr.find((c) => c.value.getName() === name)?.value;
+  getClassByName(token: string | RegExp): ClassDeclaration | undefined {
+    if (typeof token === 'string') {
+      return this.classesArr.find((c) => c.value.getName() === token)?.value;
+    }
+
+    return this.classesArr.find((c) => token.test(c.value.getName() ?? ''))?.value;
   }
 }

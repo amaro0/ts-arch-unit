@@ -1,4 +1,4 @@
-import { selectClass } from '../src/classes';
+import { selectClass } from '../src/classes/classes';
 
 describe('classes', () => {
   const expectedError = new Error('Expected error');
@@ -8,11 +8,15 @@ describe('classes', () => {
       await selectClass('CreateUserCommandHandler');
     });
 
+    it('should find by regexp', async () => {
+      await selectClass(/CommandHandler/);
+    });
+
     it('should throw non declared class', async () => {
       try {
         await selectClass('bread');
         throw expectedError;
-      } catch (e){
+      } catch (e) {
         expect(e).not.toEqual(expectedError);
       }
     });
