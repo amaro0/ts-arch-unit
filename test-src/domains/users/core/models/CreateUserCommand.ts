@@ -1,3 +1,1 @@
-export class CreateUserCommand {
-
-}
+export class CreateUserCommand {}
