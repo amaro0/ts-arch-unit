@@ -1,12 +1,13 @@
-import { ClassDeclaration, FunctionDeclaration, Project, SourceFile } from 'ts-morph';
+import { ClassDeclaration, Directory, FunctionDeclaration, Project, SourceFile } from 'ts-morph';
 
-interface IDiscoveredNode<T> {
-  sourceFileBaseName: string;
-  value: T;
-}
+import { IDiscoveredNode, Token } from './types';
+
+
 
 export class ProjectMetaCrawler {
   private sourceFiles: SourceFile[];
+
+  private sourceFilesMap: Map<string, SourceFile>;
 
   private classes: Map<string, IDiscoveredNode<ClassDeclaration[]>> = new Map();
 
@@ -23,6 +24,7 @@ export class ProjectMetaCrawler {
     this.tsMorphProject.addSourceFilesAtPaths(`${root}/**/*{.d.ts,.ts,.js,.jsx,.tsx}`);
 
     this.sourceFiles = this.tsMorphProject.getSourceFiles();
+    this.sourceFilesMap = new Map(this.sourceFiles.map(sf=>[sf.getBaseName(), sf]));
 
     this.sourceFiles.forEach((sourceFile) => {
       const sourceFileBaseName = sourceFile.getBaseName();
@@ -37,11 +39,22 @@ export class ProjectMetaCrawler {
     });
   }
 
-  getClassByName(token: string | RegExp): ClassDeclaration | undefined {
+  getClassByName(token: Token): IDiscoveredNode<ClassDeclaration> | undefined {
     if (typeof token === 'string') {
-      return this.classesArr.find((c) => c.value.getName() === token)?.value;
+      return this.classesArr.find((c) => c.value.getName() === token);
     }
 
-    return this.classesArr.find((c) => token.test(c.value.getName() ?? ''))?.value;
+    return this.classesArr.find((c) => token.test(c.value.getName() ?? ''));
+  }
+
+  getDirectoryForClass(node: IDiscoveredNode<ClassDeclaration> ): Directory{
+    const { sourceFileBaseName } = node;
+
+    const sourceFile = this.sourceFilesMap.get(sourceFileBaseName);
+    if (!sourceFile){
+      throw new Error('Source file not found');
+    }
+
+    return sourceFile.getDirectory();
   }
 }
