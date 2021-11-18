@@ -48,6 +48,12 @@ describe('classes', () => {
 
         c.should().not().resideInADirectory('wrong');
       });
+
+      it('should properly double negate statement', async () => {
+        const c = await selectClass('CreateUserCommandHandler');
+
+        c.should().not().not().resideInADirectory('core');
+      });
     });
   });
 });

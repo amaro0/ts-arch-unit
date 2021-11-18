@@ -20,7 +20,7 @@ export class ClassesQueryBuilder {
   }
 
   not(): ClassesQueryBuilder {
-    this.isNegated = true;
+    this.isNegated = !this.isNegated;
 
     return this;
   }
