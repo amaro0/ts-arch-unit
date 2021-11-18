@@ -29,10 +29,17 @@ export class ClassesQueryBuilder {
     this.classDeclarations.forEach((cd) => {
       const dir = this.projectMetaCrawler.getDirectoryForClass(cd);
 
-      if (dir.getBaseName() !== name)
+      if (!this.eq(dir.getBaseName(), name)) {
         throw new Error(`Class ${cd.value.getName()} is not in directory ${name}`);
+      }
     });
 
     return this;
+  }
+
+  private eq<T>(a: T, b: T): boolean {
+    if (this.isNegated) return a !== b;
+
+    return a === b;
   }
 }

@@ -21,4 +21,33 @@ describe('classes', () => {
       }
     });
   });
+
+  describe('ClassQueryBuilder', () => {
+    describe('resideInADirectory', () => {
+      it('should pass on directory', async () => {
+        const c = await selectClass('CreateUserCommandHandler');
+
+        c.should().resideInADirectory('core');
+      });
+
+      it('should throw non wrong directory', async () => {
+        try {
+          const c = await selectClass('CreateUserCommandHandler');
+
+          c.should().resideInADirectory('wrong');
+          throw expectedError;
+        } catch (e) {
+          expect(e).not.toEqual(expectedError);
+        }
+      });
+    });
+
+    describe('not', () => {
+      it('should properly negate statement', async () => {
+        const c = await selectClass('CreateUserCommandHandler');
+
+        c.should().not().resideInADirectory('wrong');
+      });
+    });
+  });
 });
