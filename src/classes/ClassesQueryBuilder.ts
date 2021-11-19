@@ -37,7 +37,7 @@ export class ClassesQueryBuilder {
     return this;
   }
 
-  private eq<T>(a: T, b: T): boolean {
+  private eq<T extends string | number | boolean>(a: T, b: T): boolean {
     if (this.isNegated) return a !== b;
 
     return a === b;
