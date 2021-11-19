@@ -1,7 +1,7 @@
 import { ClassDeclaration } from 'ts-morph';
 
 import { ProjectMetaCrawler } from '../ProjectMetaCrawler';
-import { IDiscoveredNode } from '../types';
+import { IDiscoveredNode, Primitives } from '../types';
 
 export class ClassesQueryBuilder {
   private isNegated: boolean = false;
@@ -37,7 +37,7 @@ export class ClassesQueryBuilder {
     return this;
   }
 
-  private eq<T extends string | number | boolean>(a: T, b: T): boolean {
+  private eq<T extends Primitives>(a: T, b: T): boolean {
     if (this.isNegated) return a !== b;
 
     return a === b;
