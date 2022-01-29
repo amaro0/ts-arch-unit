@@ -4,10 +4,32 @@ import { ClassesQueryBuilder } from './ClassesQueryBuilder';
 
 const projectMetaCrawler = bootstrap();
 
-export function selectClass(name: Token): ClassesQueryBuilder {
-  const classDeclaration = projectMetaCrawler.getClassByName(name);
+interface IClasses {
+  that(): this;
 
-  if (!classDeclaration) throw new Error(`Class ${name} not declared`);
+  haveMatchingName(name: Token): ClassesQueryBuilder;
 
-  return new ClassesQueryBuilder([classDeclaration], projectMetaCrawler);
+  resideInDirectory(dir: Token): ClassesQueryBuilder;
 }
+
+export const classes = (): IClasses => {
+  return {
+    that(): IClasses {
+      return this;
+    },
+    haveMatchingName(name: Token): ClassesQueryBuilder {
+      const classDeclaration = projectMetaCrawler.getClassByName(name);
+
+      if (!classDeclaration) throw new Error(`Class ${name} not declared`);
+
+      return new ClassesQueryBuilder([classDeclaration], projectMetaCrawler);
+    },
+    resideInDirectory(dir: Token): ClassesQueryBuilder {
+      const classDeclaration = projectMetaCrawler.getClassByName(dir);
+
+      if (!classDeclaration) throw new Error(`Class ${name} not declared`);
+
+      return new ClassesQueryBuilder([classDeclaration], projectMetaCrawler);
+    },
+  };
+};
