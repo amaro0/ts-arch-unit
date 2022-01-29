@@ -1,28 +1,15 @@
 import { ClassDeclaration } from 'ts-morph';
 
-import { ProjectMetaCrawler } from '../ProjectMetaCrawler';
-import { IDiscoveredNode, Primitives } from '../types';
+import { ProjectMetaCrawler } from '../../ProjectMetaCrawler';
+import { IDiscoveredNode, Primitives } from '../../types';
+import { QueryBuilder } from '../QueryBuilder';
 
-export class ClassesQueryBuilder {
-  private isNegated: boolean = false;
-
+export class ClassesQueryBuilder extends QueryBuilder {
   constructor(
     private classDeclarations: IDiscoveredNode<ClassDeclaration>[],
     private projectMetaCrawler: ProjectMetaCrawler,
-  ) {}
-
-  that(): ClassesQueryBuilder {
-    return this;
-  }
-
-  should(): ClassesQueryBuilder {
-    return this;
-  }
-
-  not(): ClassesQueryBuilder {
-    this.isNegated = !this.isNegated;
-
-    return this;
+  ) {
+    super();
   }
 
   resideInADirectory(name: string): ClassesQueryBuilder {

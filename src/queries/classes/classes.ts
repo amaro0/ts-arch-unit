@@ -1,5 +1,5 @@
-import { bootstrap } from '../index';
-import { Token } from '../types';
+import { bootstrap } from '../../index';
+import { Token } from '../../types';
 import { ClassesQueryBuilder } from './ClassesQueryBuilder';
 
 export async function selectClass(name: Token): Promise<ClassesQueryBuilder> {
