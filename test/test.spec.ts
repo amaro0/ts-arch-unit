@@ -1,5 +1,7 @@
-describe('Jest test', () => {
+import { expect } from 'chai';
+
+describe('Mocha test', () => {
   it('should pass', () => {
-    expect(1).toEqual(1);
+    expect(1).to.eq(1);
   });
 });

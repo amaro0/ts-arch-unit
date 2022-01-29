@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 import { selectClass } from '../src/classes/classes';
 
 describe('classes', () => {
@@ -17,7 +19,7 @@ describe('classes', () => {
         await selectClass('bread');
         throw expectedError;
       } catch (e) {
-        expect(e).not.toEqual(expectedError);
+        expect(e).not.to.eq(expectedError);
       }
     });
   });
@@ -37,7 +39,7 @@ describe('classes', () => {
           c.should().resideInADirectory('wrong');
           throw expectedError;
         } catch (e) {
-          expect(e).not.toEqual(expectedError);
+          expect(e).not.to.eq(expectedError);
         }
       });
     });
