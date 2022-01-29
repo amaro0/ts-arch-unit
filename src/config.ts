@@ -1,4 +1,4 @@
-import { cosmiconfig } from 'cosmiconfig';
+import { cosmiconfig, cosmiconfigSync } from 'cosmiconfig';
 import * as path from 'path';
 
 interface IConfig {
@@ -8,10 +8,10 @@ interface IConfig {
 
 const CONFIG_NAME = 'noarchtest';
 
-export async function loadConfig(): Promise<IConfig> {
-  const explorer = cosmiconfig(CONFIG_NAME);
+export function loadConfig(): IConfig {
+  const explorer = cosmiconfigSync(CONFIG_NAME);
   try {
-    const result = await explorer.search();
+    const result = explorer.search();
 
     if (!result || result.isEmpty) throw new Error('Config is empty');
 

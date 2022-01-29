@@ -2,9 +2,9 @@ import { bootstrap } from '../../index';
 import { Token } from '../../types';
 import { ClassesQueryBuilder } from './ClassesQueryBuilder';
 
-export async function selectClass(name: Token): Promise<ClassesQueryBuilder> {
-  const projectMetaCrawler = await bootstrap();
+const projectMetaCrawler = bootstrap();
 
+export function selectClass(name: Token): ClassesQueryBuilder {
   const classDeclaration = projectMetaCrawler.getClassByName(name);
 
   if (!classDeclaration) throw new Error(`Class ${name} not declared`);

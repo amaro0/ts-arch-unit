@@ -27,16 +27,12 @@ describe('classes', () => {
   describe('ClassQueryBuilder', () => {
     describe('resideInADirectory', () => {
       it('should pass on directory', async () => {
-        const c = await selectClass('CreateUserCommandHandler');
-
-        c.should().resideInADirectory('core');
+        selectClass('CreateUserCommandHandler').should().resideInADirectory('core');
       });
 
       it('should throw non wrong directory', async () => {
         try {
-          const c = await selectClass('CreateUserCommandHandler');
-
-          c.should().resideInADirectory('wrong');
+          selectClass('CreateUserCommandHandler').should().resideInADirectory('wrong');
           throw expectedError;
         } catch (e) {
           expect(e).not.to.eq(expectedError);
@@ -46,15 +42,13 @@ describe('classes', () => {
 
     describe('not', () => {
       it('should properly negate statement', async () => {
-        const c = await selectClass('CreateUserCommandHandler');
-
-        c.should().not().resideInADirectory('wrong');
+        selectClass('CreateUserCommandHandler').should()
+          .not().resideInADirectory('wrong');
       });
 
       it('should properly double negate statement', async () => {
-        const c = await selectClass('CreateUserCommandHandler');
-
-        c.should().not().not().resideInADirectory('core');
+        selectClass('CreateUserCommandHandler').should()
+          .not().not().resideInADirectory('core');
       });
     });
   });
