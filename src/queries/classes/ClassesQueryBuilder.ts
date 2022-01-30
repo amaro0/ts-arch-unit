@@ -24,7 +24,22 @@ export class ClassesQueryBuilder extends QueryBuilder {
     return this;
   }
 
-  implementsInterface(token: Token): this {
+  extendClass(token?: Token): this {
+    this.classDeclarations.forEach(cd => {
+      const { value } = cd;
+
+      const baseClass = value.getBaseClass();
+
+      if (!baseClass) throw new Error(`Class ${value.getName()} does not have base class`);
+      if (token && !this.eqToken(baseClass.getName()!, token)) {
+        throw new Error(`Class ${value.getName()} extends incorrect class`);
+      }
+    });
+
+    return this;
+  }
+
+  implementInterface(token: Token): this {
     this.classDeclarations.forEach(cd => {
       const interfaceDeclarations = this.projectMetaCrawler.getInterfacesForClass(cd);
 
