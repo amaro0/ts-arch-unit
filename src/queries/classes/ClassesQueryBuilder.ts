@@ -1,7 +1,7 @@
 import { ClassDeclaration } from 'ts-morph';
 
 import { ProjectMetaCrawler } from '../../ProjectMetaCrawler';
-import { IDiscoveredNode, Primitives } from '../../types';
+import { IDiscoveredNode, Token } from '../../types';
 import { QueryBuilder } from '../QueryBuilder';
 
 export class ClassesQueryBuilder extends QueryBuilder {
@@ -12,7 +12,7 @@ export class ClassesQueryBuilder extends QueryBuilder {
     super();
   }
 
-  resideInADirectory(name: string): ClassesQueryBuilder {
+  resideInADirectory(name: string): this {
     this.classDeclarations.forEach((cd) => {
       const dir = this.projectMetaCrawler.getDirectoryForClass(cd);
 
@@ -24,9 +24,19 @@ export class ClassesQueryBuilder extends QueryBuilder {
     return this;
   }
 
-  private eq<T extends Primitives>(a: T, b: T): boolean {
-    if (this.isNegated) return a !== b;
+  implementsInterface(token: Token): this {
+    this.classDeclarations.forEach(cd => {
+      const interfaceDeclarations = this.projectMetaCrawler.getInterfacesForClass(cd);
 
-    return a === b;
+      interfaceDeclarations.forEach(id => {
+        if (!this.eqToken(id.getName(), token)) {
+          throw new Error(`Class ${cd.value.getName()} interface ${id.getFullText()} implementation error`);
+        }
+      });
+    });
+
+    return this;
   }
+
+
 }

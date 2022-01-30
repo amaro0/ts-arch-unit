@@ -51,5 +51,29 @@ describe('classes', () => {
           .not().not().resideInADirectory('core');
       });
     });
+
+    describe('implementInterface', () => {
+      it('should pass on correct interface', async () => {
+        classes().that().haveMatchingName('CreateUserCommandHandler').should().implementsInterface('ICreateUser');
+      });
+
+      it('should pass on correct interface by regex', async () => {
+        classes().that().haveMatchingName('CreateUserCommandHandler').should().implementsInterface(/ICreate/);
+      });
+
+      it('should pass inline interface', async () => {
+        classes().that().haveMatchingName('InlineCreateUserCommandHandler')
+          .should().implementsInterface(/ICreate/);
+      });
+
+      it('should throw on wrong interface', async () => {
+        try {
+          classes().that().haveMatchingName('CreateUserCommandHandler').should().implementsInterface('wrong');
+          throw expectedError;
+        } catch (e) {
+          expect(e).not.to.eq(expectedError);
+        }
+      });
+    });
   });
 });
