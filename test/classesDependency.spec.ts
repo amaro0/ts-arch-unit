@@ -36,4 +36,36 @@ describe('classesDependency', () => {
       }
     });
   });
+
+  describe('onInterfaces', () => {
+    it('should pass on correct class', async () => {
+      classes().that().haveMatchingName('InlineCreateUserCommandHandler').should()
+        .depend().onInterfaces();
+    });
+
+    it('should pass on correct class when dep is imported', async () => {
+      classes().that().haveMatchingName('CreateUserCommandHandler').should()
+        .depend().onInterfaces();
+    });
+
+    it('should throw error on class that depends on concrete implementation', async () => {
+      try {
+        classes().that().haveMatchingName('WrongInlineCreateUserCommandHandler').should()
+          .depend().onInterfaces();
+        throw expectedError;
+      } catch (e) {
+        expect(e).to.not.be.eq(expectedError);
+      }
+    });
+
+    it('should throw error on class that depends on concrete implementation when dep is imported', async () => {
+      try {
+        classes().that().haveMatchingName('WrongCreateUserCommandHandler').should()
+          .depend().onInterfaces();
+        throw expectedError;
+      } catch (e) {
+        expect(e).to.not.be.eq(expectedError);
+      }
+    });
+  });
 });
