@@ -54,7 +54,7 @@ export class ClassesQueryBuilder extends QueryBuilder {
     return this;
   }
 
-  depend() {
+  depend(): ClassesDependencyQueryBuilder {
     return this.chainNot(
       new ClassesDependencyQueryBuilder(this.projectMetaCrawler, this.classDeclarations),
     );
