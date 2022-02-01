@@ -22,14 +22,14 @@ export const classes = (): IClasses => {
 
       if (!classDeclaration) throw new Error(`Class ${name} not declared`);
 
-      return new ClassesQueryBuilder([classDeclaration], projectMetaCrawler);
+      return new ClassesQueryBuilder(projectMetaCrawler, [classDeclaration]);
     },
     resideInDirectory(dir: Token): ClassesQueryBuilder {
       const classDeclaration = projectMetaCrawler.getClassByName(dir);
 
       if (!classDeclaration) throw new Error(`Class ${name} not declared`);
 
-      return new ClassesQueryBuilder([classDeclaration], projectMetaCrawler);
+      return new ClassesQueryBuilder(projectMetaCrawler, [classDeclaration]);
     },
   };
 };

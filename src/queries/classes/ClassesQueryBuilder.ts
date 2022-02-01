@@ -3,11 +3,12 @@ import { ClassDeclaration } from 'ts-morph';
 import { ProjectMetaCrawler } from '../../ProjectMetaCrawler';
 import { IDiscoveredNode, Token } from '../../types';
 import { QueryBuilder } from '../QueryBuilder';
+import { ClassesDependencyQueryBuilder } from './ClassesDependencyQueryBuilder';
 
 export class ClassesQueryBuilder extends QueryBuilder {
   constructor(
-    private classDeclarations: IDiscoveredNode<ClassDeclaration>[],
     private projectMetaCrawler: ProjectMetaCrawler,
+    private classDeclarations: IDiscoveredNode<ClassDeclaration>[],
   ) {
     super();
   }
@@ -53,5 +54,9 @@ export class ClassesQueryBuilder extends QueryBuilder {
     return this;
   }
 
-
+  depend() {
+    return this.chainNot(
+      new ClassesDependencyQueryBuilder(this.projectMetaCrawler, this.classDeclarations),
+    );
+  }
 }

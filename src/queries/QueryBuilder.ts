@@ -7,6 +7,10 @@ export abstract class QueryBuilder {
     return this;
   }
 
+  and(): this {
+    return this;
+  }
+
   should(): this {
     return this;
   }
@@ -27,5 +31,13 @@ export abstract class QueryBuilder {
     const isValid = typeof token === 'string' ? name === token : token.test(name);
 
     return this.isNegated ? !isValid : isValid;
+  }
+  
+  protected chainNot<T extends QueryBuilder>(otherQueryBuilder: T): T{
+    if (this.isNegated) {
+      otherQueryBuilder.not();
+    }
+    
+    return otherQueryBuilder;
   }
 }
