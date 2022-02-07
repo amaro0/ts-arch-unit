@@ -48,9 +48,9 @@ export class ProjectMetaCrawler {
     });
   }
 
-  getClassesForDirectory(token: Token): IDiscoveredNode<ClassDeclaration>[] {
+  getClassesByDirectory(token: Token): IDiscoveredNode<ClassDeclaration>[] {
     const sourceFilesInDir = typeof token === 'string'
-      ? this.sourceFiles.filter((sf) => sf.getDirectoryPath().includes(token))
+      ? this.sourceFiles.filter((sf) => sf.getDirectoryPath().split('/').pop() === token)
       : this.sourceFiles.filter((sf) => token.test(sf.getDirectoryPath()));
 
     return sourceFilesInDir.flatMap(sf => {

@@ -25,7 +25,7 @@ export const classes = (): IClasses => {
       return new ClassesQueryBuilder(projectMetaCrawler, classDeclarations);
     },
     resideInDirectory(dir: Token): ClassesQueryBuilder {
-      const classDeclarations = projectMetaCrawler.getClassesForDirectory(dir);
+      const classDeclarations = projectMetaCrawler.getClassesByDirectory(dir);
 
       if (!classDeclarations.length) throw new Error(`No classes in directory ${dir.toString()}`);
 
