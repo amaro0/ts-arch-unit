@@ -73,8 +73,9 @@ export class ProjectMetaCrawler {
     const { sourceFileBaseName } = node;
 
     const sourceFile = this.sourceFilesMap.get(sourceFileBaseName);
+
     if (!sourceFile) {
-      throw new Error('Source file not found');
+      throw new Error('getDirectoryForClass Source file not found');
     }
 
     return sourceFile.getDirectory();
