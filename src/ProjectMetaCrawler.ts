@@ -2,7 +2,8 @@ import {
   ClassDeclaration,
   Directory,
   FunctionDeclaration,
-  InterfaceDeclaration, Node,
+  InterfaceDeclaration,
+  Node,
   Project,
   SourceFile,
   SyntaxKind,
@@ -47,6 +48,19 @@ export class ProjectMetaCrawler {
     });
   }
 
+  getClassesForDirectory(token: Token): IDiscoveredNode<ClassDeclaration>[] {
+    const sourceFilesInDir = typeof token === 'string'
+      ? this.sourceFiles.filter((sf) => sf.getDirectoryPath().includes(token))
+      : this.sourceFiles.filter((sf) => token.test(sf.getDirectoryPath()));
+
+    return sourceFilesInDir.flatMap(sf => {
+      const sfBaseName = sf.getBaseName();
+      const classes = sf.getClasses();
+
+      return classes.map(c => ({ sourceFileBaseName: sfBaseName, value: c }));
+    });
+  }
+
   getClassesByName(token: Token): IDiscoveredNode<ClassDeclaration>[] {
     if (typeof token === 'string') {
       return this.classesArr.filter((c) => c.value.getName() === token);
@@ -78,7 +92,7 @@ export class ProjectMetaCrawler {
 
       symbol.getDeclarations().forEach(d => {
         const id = findDeepNode(d, SyntaxKind.InterfaceDeclaration);
-        
+
         if (id && Node.isInterfaceDeclaration(id)) interfaces.push(id);
       });
     });

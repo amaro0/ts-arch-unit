@@ -20,16 +20,16 @@ export const classes = (): IClasses => {
     haveMatchingName(name: Token): ClassesQueryBuilder {
       const classDeclarations = projectMetaCrawler.getClassesByName(name);
 
-      if (!classDeclarations.length) throw new Error(`Class ${name} not declared`);
+      if (!classDeclarations.length) throw new Error(`No classes named ${name.toString()}`);
 
       return new ClassesQueryBuilder(projectMetaCrawler, classDeclarations);
     },
     resideInDirectory(dir: Token): ClassesQueryBuilder {
-      const classDeclaration = projectMetaCrawler.getClassesByName(dir);
+      const classDeclarations = projectMetaCrawler.getClassesForDirectory(dir);
 
-      if (!classDeclaration) throw new Error(`Class ${name} not declared`);
+      if (!classDeclarations.length) throw new Error(`No classes in directory ${dir.toString()}`);
 
-      return new ClassesQueryBuilder(projectMetaCrawler, classDeclaration);
+      return new ClassesQueryBuilder(projectMetaCrawler, classDeclarations);
     },
   };
 };
