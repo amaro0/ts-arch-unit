@@ -47,12 +47,12 @@ export class ProjectMetaCrawler {
     });
   }
 
-  getClassByName(token: Token): IDiscoveredNode<ClassDeclaration> | undefined {
+  getClassesByName(token: Token): IDiscoveredNode<ClassDeclaration>[] {
     if (typeof token === 'string') {
-      return this.classesArr.find((c) => c.value.getName() === token);
+      return this.classesArr.filter((c) => c.value.getName() === token);
     }
 
-    return this.classesArr.find((c) => token.test(c.value.getName() ?? ''));
+    return this.classesArr.filter((c) => token.test(c.value.getName() ?? ''));
   }
 
   getDirectoryForClass(node: IDiscoveredNode<ClassDeclaration>): Directory {

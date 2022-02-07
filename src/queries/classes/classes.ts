@@ -18,18 +18,18 @@ export const classes = (): IClasses => {
       return this;
     },
     haveMatchingName(name: Token): ClassesQueryBuilder {
-      const classDeclaration = projectMetaCrawler.getClassByName(name);
+      const classDeclarations = projectMetaCrawler.getClassesByName(name);
 
-      if (!classDeclaration) throw new Error(`Class ${name} not declared`);
+      if (!classDeclarations.length) throw new Error(`Class ${name} not declared`);
 
-      return new ClassesQueryBuilder(projectMetaCrawler, [classDeclaration]);
+      return new ClassesQueryBuilder(projectMetaCrawler, classDeclarations);
     },
     resideInDirectory(dir: Token): ClassesQueryBuilder {
-      const classDeclaration = projectMetaCrawler.getClassByName(dir);
+      const classDeclaration = projectMetaCrawler.getClassesByName(dir);
 
       if (!classDeclaration) throw new Error(`Class ${name} not declared`);
 
-      return new ClassesQueryBuilder(projectMetaCrawler, [classDeclaration]);
+      return new ClassesQueryBuilder(projectMetaCrawler, classDeclaration);
     },
   };
 };
