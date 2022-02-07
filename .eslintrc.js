@@ -9,6 +9,7 @@ module.exports = {
     project: './tsconfig.json',
     sourceType: 'module',
   },
+  ignorePatterns: ["**/test-src/**/*.ts"],
   rules: {
     '@typescript-eslint/naming-convention': [
       'error',
