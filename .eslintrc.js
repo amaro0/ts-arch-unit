@@ -2,7 +2,7 @@ module.exports = {
   env: {
     es6: true,
   },
-  extends: ['airbnb-typescript/base'],
+  extends: ['airbnb-typescript/base', 'prettier'],
   plugins: ['no-only-tests', 'simple-import-sort', 'unused-imports', 'import'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
