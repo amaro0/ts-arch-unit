@@ -51,4 +51,20 @@ describe('files', () => {
       }
     });
   });
+
+  // TODO implement dependency check in reside in a dir and have a matching name so
+  describe('dependOn', () => {
+    it('should pass on existing file name', async () => {
+      files().that().haveMatchingName('controllers').should().not().dependOnFiles().that().resideInADirectory('repositories');
+    });
+
+    it('should pass on existing file name', async () => {
+      try {
+        files().that().haveMatchingName('controllers').should().dependOnFiles().that().resideInADirectory('repositories');
+        throw expectedError;
+      } catch (e) {
+        expect(e).not.to.eq(expectedError);
+      }
+    });
+  });
 });
