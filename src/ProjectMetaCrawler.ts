@@ -14,7 +14,7 @@ import { IDiscoveredNode, Token } from './types';
 
 
 export class ProjectMetaCrawler {
-  private sourceFiles: SourceFile[];
+  sourceFiles: SourceFile[];
 
   private sourceFilesMap: Map<string, SourceFile>;
 
