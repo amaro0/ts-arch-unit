@@ -34,14 +34,15 @@ export class FilesQueryBuilder extends QueryBuilder {
 
 
   resideInADirectory(name: string): this {
-    this.classDeclarations.forEach((cd) => {
-      const dir = this.projectMetaCrawler.getDirectoryForClass(cd);
-
-      if (!this.eq(dir.getBaseName(), name)) {
-        throw new Error(`Class ${cd.value.getName()} is not in directory ${name}`);
-      }
-    });
-
     return this;
+    // this.classDeclarations.forEach((cd) => {
+    //   const dir = this.projectMetaCrawler.getDirectoryForClass(cd);
+    //
+    //   if (!this.eq(dir.getBaseName(), name)) {
+    //     throw new Error(`Class ${cd.value.getName()} is not in directory ${name}`);
+    //   }
+    // });
+    //
+    // return this;
   }
 }
