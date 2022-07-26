@@ -32,17 +32,12 @@ export class FilesQueryBuilder extends QueryBuilder {
     return this;
   }
 
+  resideInADirectory(token: Token): this {
+    this.files = this.files.filter(f => {
+      const dir = f.getDirectory();
+      return this.eqToken(dir.getBaseName(), token);
+    });
 
-  resideInADirectory(name: string): this {
     return this;
-    // this.classDeclarations.forEach((cd) => {
-    //   const dir = this.projectMetaCrawler.getDirectoryForClass(cd);
-    //
-    //   if (!this.eq(dir.getBaseName(), name)) {
-    //     throw new Error(`Class ${cd.value.getName()} is not in directory ${name}`);
-    //   }
-    // });
-    //
-    // return this;
   }
 }
