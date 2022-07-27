@@ -23,12 +23,18 @@ export class FilesQueryBuilder extends QueryBuilder {
   }
 
   haveMatchingName(token: Token): this {
-    if (typeof token === 'string') {
-      this.files = this.files.filter((f) => f.getBaseName() === token);
+    if (this.isDependencyCheck) {
+      this.files.forEach(f => {
+        const dependentFiles = this.fileDependencyMap.get(f.getFilePath());
+        if (this.eq(!!(dependentFiles && dependentFiles.length), true)) {
+          throw new Error(`File ${f.getBaseName()} depends on files ${dependentFiles?.map(df => df.getBaseName())}`);
+        }
+      });
+
       return this;
     }
 
-    this.files = this.files.filter((f) => token.test(f.getBaseName()));
+    this.files = this.files.filter((f) => this.eqToken(f.getBaseName(), token));
 
     return this;
   }
@@ -57,12 +63,12 @@ export class FilesQueryBuilder extends QueryBuilder {
         this.dependentFiles.push(i.getSourceFile());
 
         // REMOVE IF NOT NEEDED
-        const mapNode = this.fileDependencyMap.get(f.getBaseName());
+        const mapNode = this.fileDependencyMap.get(f.getFilePath());
         if (mapNode) {
-          this.fileDependencyMap.set(f.getBaseName(), [...mapNode, i.getSourceFile()]);
+          this.fileDependencyMap.set(f.getFilePath(), [...mapNode, i.getSourceFile()]);
           return;
         }
-        this.fileDependencyMap.set(f.getBaseName(), [i.getSourceFile()]);
+        this.fileDependencyMap.set(f.getFilePath(), [i.getSourceFile()]);
       });
     });
 
