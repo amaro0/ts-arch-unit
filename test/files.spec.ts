@@ -54,13 +54,26 @@ describe('files', () => {
 
   // TODO implement dependency check in reside in a dir and have a matching name so
   describe('dependOn', () => {
-    it('should pass on existing file name', async () => {
+    it('should pass on dependency not reside in check', async () => {
       files().that().haveMatchingName('controllers').should().not().dependOnFiles().that().resideInADirectory('repositories');
     });
 
-    it('should pass on existing file name', async () => {
+    it('should throw on dependency not reside in check', async () => {
       try {
         files().that().haveMatchingName('controllers').should().dependOnFiles().that().resideInADirectory('repositories');
+        throw expectedError;
+      } catch (e) {
+        expect(e).not.to.eq(expectedError);
+      }
+    });
+
+    it('should pass dependency has matching name check', async () => {
+      files().that().haveMatchingName('controllers').should().not().dependOnFiles().that().haveMatchingName('/Repository/');
+    });
+
+    it('should on dependency has matching name check', async () => {
+      try {
+        files().that().haveMatchingName('controllers').should().dependOnFiles().that().haveMatchingName('/Repository');
         throw expectedError;
       } catch (e) {
         expect(e).not.to.eq(expectedError);
