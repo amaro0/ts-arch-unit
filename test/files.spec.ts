@@ -52,7 +52,6 @@ describe('files', () => {
     });
   });
 
-  // TODO implement dependency check in reside in a dir and have a matching name so
   describe('dependOn', () => {
     it('should pass on dependency not reside in check', async () => {
       files().that().resideInADirectory('controllers').should().not().dependOnFiles().that().resideInADirectory('repositories');
