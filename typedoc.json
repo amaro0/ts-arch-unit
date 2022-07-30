@@ -1,0 +1,7 @@
+{
+  "entryPoints": [
+    "src"
+  ],
+  "out": "typedoc",
+  "entryPointStrategy": "expand"
+}

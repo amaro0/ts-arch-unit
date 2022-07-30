@@ -108,4 +108,4 @@ _test-fiddles
 !.elasticbeanstalk/*.global.yml
 
 *scratch*
-
+typedoc
