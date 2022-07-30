@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { files } from '../src/queries/files/files';
+import { files } from '../src';
 
 describe('files', () => {
   const expectedError = new Error('Expected error');

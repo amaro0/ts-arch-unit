@@ -1,4 +1,4 @@
-import { bootstrap } from '../../index';
+import { bootstrap } from '../../bootstrap';
 import { FilesQueryBuilder } from './FilesQueryBuilder';
 
 export const files = (): FilesQueryBuilder => {

@@ -1,4 +1,4 @@
-import { bootstrap } from '../../index';
+import { bootstrap } from '../../bootstrap';
 import { Token } from '../../types';
 import { ClassesQueryBuilder } from './ClassesQueryBuilder';
 
