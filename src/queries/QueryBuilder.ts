@@ -3,6 +3,8 @@ import { Primitives, Token } from '../types';
 export abstract class QueryBuilder {
   protected isNegated: boolean = false;
 
+  protected isAssert: boolean = false;
+
   that(): this {
     return this;
   }
@@ -12,6 +14,7 @@ export abstract class QueryBuilder {
   }
 
   should(): this {
+    this.isAssert = true;
     return this;
   }
 
@@ -32,12 +35,12 @@ export abstract class QueryBuilder {
 
     return this.isNegated ? !isValid : isValid;
   }
-  
-  protected chainNot<T extends QueryBuilder>(otherQueryBuilder: T): T{
+
+  protected chainNot<T extends QueryBuilder>(otherQueryBuilder: T): T {
     if (this.isNegated) {
       otherQueryBuilder.not();
     }
-    
+
     return otherQueryBuilder;
   }
 }

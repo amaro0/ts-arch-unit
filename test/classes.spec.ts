@@ -38,11 +38,11 @@ describe('classes', () => {
       }
     });
 
-    it('should pass on directory', async () => {
+    it('should pass on assert directory', async () => {
       classes().that().haveMatchingName('CreateUserCommandHandler').should().resideInADirectory('core');
     });
 
-    it('should throw non wrong directory', async () => {
+    it('should throw on assert for wrong directory', async () => {
       try {
         classes().that().haveMatchingName('CreateUserCommandHandler').should().resideInADirectory('wrong');
         throw expectedError;

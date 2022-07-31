@@ -39,9 +39,15 @@ export class ClassesQueryBuilder extends QueryBuilder {
   }
 
   resideInADirectory(token: Token): this {
+
     this.classDeclarations = this.classDeclarations.filter((cd) => {
       const dir = this.projectMetaCrawler.getDirectoryForClass(cd);
-      return this.eqToken(dir.getBaseName(), token);
+      const eq = this.eqToken(dir.getBaseName(), token);
+
+      if (!eq && this.isAssert) {
+        throw new Error(`Class ${cd.value.getName()} is not in a dir ${token}`);
+      }
+      return eq;
     });
 
     return this;
