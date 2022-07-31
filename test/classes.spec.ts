@@ -37,6 +37,19 @@ describe('classes', () => {
         expect(e).not.to.eq(expectedError);
       }
     });
+
+    it('should pass on directory', async () => {
+      classes().that().haveMatchingName('CreateUserCommandHandler').should().resideInADirectory('core');
+    });
+
+    it('should throw non wrong directory', async () => {
+      try {
+        classes().that().haveMatchingName('CreateUserCommandHandler').should().resideInADirectory('wrong');
+        throw expectedError;
+      } catch (e) {
+        expect(e).not.to.eq(expectedError);
+      }
+    });
   });
 
   describe('resideInAPath', () => {
@@ -47,22 +60,6 @@ describe('classes', () => {
     it('should throw non existing path class', async () => {
       try {
         classes().that().resideInAPath('non-existing').shouldExist();
-        throw expectedError;
-      } catch (e) {
-        expect(e).not.to.eq(expectedError);
-      }
-    });
-  });
-
-
-  describe('resideInADirectory', () => {
-    it('should pass on directory', async () => {
-      classes().that().haveMatchingName('CreateUserCommandHandler').should().resideInADirectory('core');
-    });
-
-    it('should throw non wrong directory', async () => {
-      try {
-        classes().that().haveMatchingName('CreateUserCommandHandler').should().resideInADirectory('wrong');
         throw expectedError;
       } catch (e) {
         expect(e).not.to.eq(expectedError);
