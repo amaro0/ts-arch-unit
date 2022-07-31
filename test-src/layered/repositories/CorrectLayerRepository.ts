@@ -1,3 +1,1 @@
-export class CorrectLayerRepository{
-
-}
+export class CorrectLayerRepository {}

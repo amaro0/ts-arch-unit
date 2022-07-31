@@ -1,5 +1,5 @@
-export class WrongController{
-  wrongMethod(): string{
+export class WrongController {
+  wrongMethod(): string {
     return '123';
   }
 }

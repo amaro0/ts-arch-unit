@@ -8,9 +8,7 @@ import { ClassesDependencyQueryBuilder } from './ClassesDependencyQueryBuilder';
 export class ClassesQueryBuilder extends QueryBuilder {
   private classDeclarations: IDiscoveredNode<ClassDeclaration>[] = [];
 
-  constructor(
-    private projectMetaCrawler: ProjectMetaCrawler,
-  ) {
+  constructor(private projectMetaCrawler: ProjectMetaCrawler) {
     super();
 
     this.classDeclarations = Array.from(this.projectMetaCrawler.classesArr);
@@ -24,7 +22,7 @@ export class ClassesQueryBuilder extends QueryBuilder {
 
   haveMatchingName(token: Token): ClassesQueryBuilder {
     this.classDeclarations = this.classDeclarations.filter((node) => {
-      const eq = this.eqToken(node.value.getName() ?? '', token)
+      const eq = this.eqToken(node.value.getName() ?? '', token);
       if (!eq && this.isAssert) {
         throw new Error(`Class ${node.value.getName()} is not having a matching name ${token}`);
       }
@@ -45,7 +43,6 @@ export class ClassesQueryBuilder extends QueryBuilder {
   }
 
   resideInADirectory(token: Token): this {
-
     this.classDeclarations = this.classDeclarations.filter((cd) => {
       const dir = this.projectMetaCrawler.getDirectoryForClass(cd);
       const eq = this.eqToken(dir.getBaseName(), token);
@@ -60,7 +57,7 @@ export class ClassesQueryBuilder extends QueryBuilder {
   }
 
   extendClass(token?: Token): this {
-    this.classDeclarations.forEach(cd => {
+    this.classDeclarations.forEach((cd) => {
       const { value } = cd;
 
       const baseClass = value.getBaseClass();
@@ -75,12 +72,14 @@ export class ClassesQueryBuilder extends QueryBuilder {
   }
 
   implementInterface(token: Token): this {
-    this.classDeclarations.forEach(cd => {
+    this.classDeclarations.forEach((cd) => {
       const interfaceDeclarations = this.projectMetaCrawler.getInterfacesForClass(cd);
 
-      interfaceDeclarations.forEach(id => {
+      interfaceDeclarations.forEach((id) => {
         if (!this.eqToken(id.getName(), token)) {
-          throw new Error(`Class ${cd.value.getName()} interface ${id.getFullText()} implementation error`);
+          throw new Error(
+            `Class ${cd.value.getName()} interface ${id.getFullText()} implementation error`,
+          );
         }
       });
     });

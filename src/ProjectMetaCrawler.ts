@@ -12,7 +12,6 @@ import {
 import { findDeepNode } from './astUtilities';
 import { IDiscoveredNode, Token } from './types';
 
-
 export class ProjectMetaCrawler {
   sourceFiles: SourceFile[];
 
@@ -33,7 +32,7 @@ export class ProjectMetaCrawler {
     this.tsMorphProject.addSourceFilesAtPaths(`${root}/**/*{.d.ts,.ts,.js,.jsx,.tsx}`);
 
     this.sourceFiles = this.tsMorphProject.getSourceFiles();
-    this.sourceFilesMap = new Map(this.sourceFiles.map(sf => [sf.getBaseName(), sf]));
+    this.sourceFilesMap = new Map(this.sourceFiles.map((sf) => [sf.getBaseName(), sf]));
 
     this.sourceFiles.forEach((sourceFile) => {
       const sourceFileBaseName = sourceFile.getBaseName();
@@ -49,15 +48,16 @@ export class ProjectMetaCrawler {
   }
 
   getClassesByDirectory(token: Token): IDiscoveredNode<ClassDeclaration>[] {
-    const sourceFilesInDir = typeof token === 'string'
-      ? this.sourceFiles.filter((sf) => sf.getDirectoryPath().split('/').pop() === token)
-      : this.sourceFiles.filter((sf) => token.test(sf.getDirectoryPath()));
+    const sourceFilesInDir =
+      typeof token === 'string'
+        ? this.sourceFiles.filter((sf) => sf.getDirectoryPath().split('/').pop() === token)
+        : this.sourceFiles.filter((sf) => token.test(sf.getDirectoryPath()));
 
-    return sourceFilesInDir.flatMap(sf => {
+    return sourceFilesInDir.flatMap((sf) => {
       const sfBaseName = sf.getBaseName();
       const classes = sf.getClasses();
 
-      return classes.map(c => ({ sourceFileBaseName: sfBaseName, value: c }));
+      return classes.map((c) => ({ sourceFileBaseName: sfBaseName, value: c }));
     });
   }
 
@@ -85,13 +85,13 @@ export class ProjectMetaCrawler {
     const { value: classDeclaration } = discoveredNode;
     const interfaces: InterfaceDeclaration[] = [];
 
-    classDeclaration.getImplements().forEach(hc => {
+    classDeclaration.getImplements().forEach((hc) => {
       const ex = hc.getExpression();
       const symbol = ex.getSymbol()?.getAliasedSymbol();
 
       if (!symbol) return;
 
-      symbol.getDeclarations().forEach(d => {
+      symbol.getDeclarations().forEach((d) => {
         const id = findDeepNode(d, SyntaxKind.InterfaceDeclaration);
 
         if (id && Node.isInterfaceDeclaration(id)) interfaces.push(id);

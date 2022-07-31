@@ -2,9 +2,7 @@ type Context = {};
 
 type Id = string;
 
-class CreateUserCommand {
-
-}
+class CreateUserCommand {}
 
 interface ICreateUser {
   handle(command: CreateUserCommand, ctx?: Context): Promise<Id>;
@@ -15,15 +13,11 @@ interface IDep {
 }
 
 class Dep implements IDep {
-  go(): void {
-  }
+  go(): void {}
 }
 
 export class InlineCreateUserCommandHandler implements ICreateUser {
-  constructor(
-    private someDep: IDep,
-  ) {
-  }
+  constructor(private someDep: IDep) {}
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   handle(command: CreateUserCommand, ctx?: Context): Promise<Id> {
@@ -32,10 +26,7 @@ export class InlineCreateUserCommandHandler implements ICreateUser {
 }
 
 export class WrongInlineCreateUserCommandHandler implements ICreateUser {
-  constructor(
-    private someDep: Dep,
-  ) {
-  }
+  constructor(private someDep: Dep) {}
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   handle(command: CreateUserCommand, ctx?: Context): Promise<Id> {

@@ -14,9 +14,7 @@ export class FilesQueryBuilder extends QueryBuilder {
 
   private dependentFiles: SourceFile[] = [];
 
-  constructor(
-    private projectMetaCrawler: ProjectMetaCrawler,
-  ) {
+  constructor(private projectMetaCrawler: ProjectMetaCrawler) {
     super();
 
     this.files = Array.from(projectMetaCrawler.sourceFiles);
@@ -24,10 +22,14 @@ export class FilesQueryBuilder extends QueryBuilder {
 
   haveMatchingName(token: Token): this {
     if (this.isDependencyCheck) {
-      this.files.forEach(f => {
+      this.files.forEach((f) => {
         const dependentFiles = this.fileDependencyMap.get(f.getFilePath());
         if (this.eq(!!(dependentFiles && dependentFiles.length), true)) {
-          throw new Error(`File ${f.getBaseName()} depends on files ${dependentFiles?.map(df => df.getBaseName())}`);
+          throw new Error(
+            `File ${f.getBaseName()} depends on files ${dependentFiles?.map((df) =>
+              df.getBaseName(),
+            )}`,
+          );
         }
       });
 
@@ -53,13 +55,15 @@ export class FilesQueryBuilder extends QueryBuilder {
 
   resideInADirectory(token: Token): this {
     if (this.isDependencyCheck) {
-      this.files.forEach(f => {
+      this.files.forEach((f) => {
         const dependentFiles = this.fileDependencyMap.get(f.getFilePath());
 
-        dependentFiles?.forEach(df => {
+        dependentFiles?.forEach((df) => {
           const dir = df.getDirectory();
           if (!this.eqToken(dir.getBaseName(), token)) {
-            throw new Error(`File ${f.getBaseName()} depends on file from forbidden path ${df.getFilePath()}`);
+            throw new Error(
+              `File ${f.getBaseName()} depends on file from forbidden path ${df.getFilePath()}`,
+            );
           }
         });
       });
@@ -67,7 +71,7 @@ export class FilesQueryBuilder extends QueryBuilder {
       return this;
     }
 
-    this.files = this.files.filter(f => {
+    this.files = this.files.filter((f) => {
       const dir = f.getDirectory();
       const eq = this.eqToken(dir.getBaseName(), token);
       if (!eq && this.isAssert) {
@@ -82,9 +86,9 @@ export class FilesQueryBuilder extends QueryBuilder {
   dependOnFiles(): this {
     this.isDependencyCheck = true;
 
-    this.files.forEach(f => {
+    this.files.forEach((f) => {
       const imports = f.getImportDeclarations();
-      imports.forEach(i => {
+      imports.forEach((i) => {
         this.dependentFiles.push(i.getSourceFile());
 
         // REMOVE IF NOT NEEDED
