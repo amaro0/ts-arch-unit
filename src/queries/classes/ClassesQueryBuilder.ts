@@ -23,7 +23,13 @@ export class ClassesQueryBuilder extends QueryBuilder {
   }
 
   haveMatchingName(token: Token): ClassesQueryBuilder {
-    this.classDeclarations = this.classDeclarations.filter((node) => this.eqToken(node.value.getName() ?? '', token));
+    this.classDeclarations = this.classDeclarations.filter((node) => {
+      const eq = this.eqToken(node.value.getName() ?? '', token)
+      if (!eq && this.isAssert) {
+        throw new Error(`Class ${node.value.getName()} is not having a matching name ${token}`);
+      }
+      return eq;
+    });
 
     return this;
   }

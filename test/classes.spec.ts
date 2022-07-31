@@ -22,6 +22,19 @@ describe('classes', () => {
         expect(e).not.to.eq(expectedError);
       }
     });
+
+    it('should pass on correct matching name assert', async () => {
+      classes().that().resideInADirectory('services').should().haveMatchingName(/[A-Za-z]+Service/);
+    });
+
+    it('should throw on wrong name assert', async () => {
+      try {
+        classes().that().resideInADirectory('services').should().haveMatchingName('wrong');
+        throw expectedError;
+      } catch (e) {
+        expect(e).not.to.eq(expectedError);
+      }
+    });
   });
 
   describe('resideInDirectory', () => {
