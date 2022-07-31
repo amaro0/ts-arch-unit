@@ -1,0 +1,20 @@
+name: CI
+on:
+  push: []
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      # Setup .npmrc file to publish to npm
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          cache: npm
+      - run: npm i
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run format
+      - run: npm run test
+
