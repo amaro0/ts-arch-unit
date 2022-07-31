@@ -24,12 +24,12 @@ describe('files', () => {
     });
 
     it('should pass on existing file name assert', async () => {
-      files().that().resideInADirectory('services').should().haveMatchingName('/[A-Za-z]+Service/');
+      files().that().resideInADirectory('services').should().haveMatchingName(/[A-Za-z]+Service.ts/);
     });
 
     it('should throw incorrect file name assert', async () => {
       try {
-        files().that().resideInADirectory('repositories').should().haveMatchingName('/[A-Za-z]+Service/');
+        files().that().resideInADirectory('repositories').should().haveMatchingName(/[A-Za-z]+Service.ts/);
         throw expectedError;
       } catch (e) {
         expect(e).not.to.eq(expectedError);
@@ -65,12 +65,12 @@ describe('files', () => {
     });
 
     it('should pass on correct dir assert', async () => {
-      files().that().haveMatchingName('/[A-Za-z]+Service/').should().resideInADirectory('services');
+      files().that().haveMatchingName(/[A-Za-z]+Service.ts/).should().resideInADirectory('services');
     });
 
     it('should throw incorrect dir assert', async () => {
       try {
-        files().that().haveMatchingName('/[A-Za-z]+Service/').should().resideInADirectory('repositories');
+        files().that().haveMatchingName(/[A-Za-z]+Service.ts/).should().resideInADirectory('repositories');
         throw expectedError;
       } catch (e) {
         expect(e).not.to.eq(expectedError);
@@ -78,7 +78,7 @@ describe('files', () => {
     });
 
     it('should pass on negated incorrect dir assert', async () => {
-      files().that().haveMatchingName('/[A-Za-z]+Service/').should().not().resideInADirectory('repositories');
+      files().that().haveMatchingName(/[A-Za-z]+Service.ts/).should().not().resideInADirectory('repositories');
     });
   });
 

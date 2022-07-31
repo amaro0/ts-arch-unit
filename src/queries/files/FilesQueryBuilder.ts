@@ -34,7 +34,13 @@ export class FilesQueryBuilder extends QueryBuilder {
       return this;
     }
 
-    this.files = this.files.filter((f) => this.eqToken(f.getBaseName(), token));
+    this.files = this.files.filter((f) => {
+      const eq = this.eqToken(f.getBaseName(), token);
+      if (!eq && this.isAssert) {
+        throw new Error(`File ${f.getBaseName()} is not having a matching name ${token}`);
+      }
+      return eq;
+    });
 
     return this;
   }
@@ -63,7 +69,11 @@ export class FilesQueryBuilder extends QueryBuilder {
 
     this.files = this.files.filter(f => {
       const dir = f.getDirectory();
-      return this.eqToken(dir.getBaseName(), token);
+      const eq = this.eqToken(dir.getBaseName(), token);
+      if (!eq && this.isAssert) {
+        throw new Error(`File ${f.getBaseName()} is not in correct dir ${token}`);
+      }
+      return eq;
     });
 
     return this;
