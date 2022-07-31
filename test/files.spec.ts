@@ -22,6 +22,19 @@ describe('files', () => {
         expect(e).not.to.eq(expectedError);
       }
     });
+
+    it('should pass on existing file name assert', async () => {
+      files().that().resideInADirectory('services').should().haveMatchingName('/[A-Za-z]+Service/');
+    });
+
+    it('should throw incorrect file name assert', async () => {
+      try {
+        files().that().resideInADirectory('repositories').should().haveMatchingName('/[A-Za-z]+Service/');
+        throw expectedError;
+      } catch (e) {
+        expect(e).not.to.eq(expectedError);
+      }
+    });
   });
 
   describe('resideInADirectory', () => {
@@ -49,6 +62,23 @@ describe('files', () => {
       } catch (e) {
         expect(e).not.to.eq(expectedError);
       }
+    });
+
+    it('should pass on correct dir assert', async () => {
+      files().that().haveMatchingName('/[A-Za-z]+Service/').should().resideInADirectory('services');
+    });
+
+    it('should throw incorrect dir assert', async () => {
+      try {
+        files().that().haveMatchingName('/[A-Za-z]+Service/').should().resideInADirectory('repositories');
+        throw expectedError;
+      } catch (e) {
+        expect(e).not.to.eq(expectedError);
+      }
+    });
+
+    it('should pass on negated incorrect dir assert', async () => {
+      files().that().haveMatchingName('/[A-Za-z]+Service/').should().not().resideInADirectory('repositories');
     });
   });
 
