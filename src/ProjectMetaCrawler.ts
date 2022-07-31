@@ -20,7 +20,7 @@ export class ProjectMetaCrawler {
 
   private classes: Map<string, IDiscoveredNode<ClassDeclaration[]>> = new Map();
 
-  private classesArr: IDiscoveredNode<ClassDeclaration>[] = [];
+  classesArr: IDiscoveredNode<ClassDeclaration>[] = [];
 
   private functions: Map<string, IDiscoveredNode<FunctionDeclaration[]>> = new Map();
 
@@ -99,5 +99,15 @@ export class ProjectMetaCrawler {
     });
 
     return interfaces;
+  }
+
+  getSourceFileForBaseName(sfBaseName: string): SourceFile {
+    const sourceFile = this.sourceFilesMap.get(sfBaseName);
+
+    if (!sourceFile) {
+      throw new Error('isSourceFileInAPath Source file not found');
+    }
+
+    return sourceFile;
   }
 }

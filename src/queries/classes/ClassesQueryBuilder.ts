@@ -6,20 +6,42 @@ import { QueryBuilder } from '../QueryBuilder';
 import { ClassesDependencyQueryBuilder } from './ClassesDependencyQueryBuilder';
 
 export class ClassesQueryBuilder extends QueryBuilder {
+  private classDeclarations: IDiscoveredNode<ClassDeclaration>[] = [];
+
   constructor(
     private projectMetaCrawler: ProjectMetaCrawler,
-    private classDeclarations: IDiscoveredNode<ClassDeclaration>[],
   ) {
     super();
+
+    this.classDeclarations = Array.from(this.projectMetaCrawler.classesArr);
   }
 
-  resideInADirectory(name: string): this {
-    this.classDeclarations.forEach((cd) => {
-      const dir = this.projectMetaCrawler.getDirectoryForClass(cd);
+  shouldExist(): this {
+    if (!this.classDeclarations.length) throw new Error('No classes exists');
 
-      if (!this.eq(dir.getBaseName(), name)) {
-        throw new Error(`Class ${cd.value.getName()} is not in directory ${name}`);
-      }
+    return this;
+  }
+
+  haveMatchingName(token: Token): ClassesQueryBuilder {
+    this.classDeclarations = this.classDeclarations.filter((node) => this.eqToken(node.value.getName() ?? '', token));
+
+    return this;
+  }
+
+  resideInAPath(token: Token): this {
+    this.classDeclarations = this.classDeclarations.filter((cd) => {
+      const sf = this.projectMetaCrawler.getSourceFileForBaseName(cd.sourceFileBaseName);
+
+      return this.eqToken(sf.getDirectoryPath(), token);
+    });
+
+    return this;
+  }
+
+  resideInADirectory(token: Token): this {
+    this.classDeclarations = this.classDeclarations.filter((cd) => {
+      const dir = this.projectMetaCrawler.getDirectoryForClass(cd);
+      return this.eqToken(dir.getBaseName(), token);
     });
 
     return this;

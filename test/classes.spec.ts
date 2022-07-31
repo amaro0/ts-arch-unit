@@ -7,16 +7,16 @@ describe('classes', () => {
 
   describe('haveMatchingName', () => {
     it('should pass on correct class', async () => {
-      classes().that().haveMatchingName('CreateUserCommandHandler');
+      classes().that().haveMatchingName('CreateUserCommandHandler').shouldExist();
     });
 
     it('should find by regexp', async () => {
-      classes().that().haveMatchingName(/CommandHandler/);
+      classes().that().haveMatchingName(/CommandHandler/).shouldExist();
     });
 
     it('should throw non declared class', async () => {
       try {
-        classes().that().haveMatchingName('bread');
+        classes().that().haveMatchingName('bread').shouldExist();
         throw expectedError;
       } catch (e) {
         expect(e).not.to.eq(expectedError);
@@ -26,16 +26,27 @@ describe('classes', () => {
 
   describe('resideInDirectory', () => {
     it('should pass on correct directory', async () => {
-      classes().that().resideInDirectory('app');
-    });
-
-    it('should find by regexp', async () => {
-      classes().that().resideInDirectory(/\S\/domains\/[\S]+\/app/);
+      classes().that().resideInADirectory('app').shouldExist();
     });
 
     it('should throw non declared class', async () => {
       try {
-        classes().that().resideInDirectory('non-existing');
+        classes().that().resideInADirectory('non-existing').shouldExist();
+        throw expectedError;
+      } catch (e) {
+        expect(e).not.to.eq(expectedError);
+      }
+    });
+  });
+
+  describe('resideInAPath', () => {
+    it('should find by regexp', async () => {
+      classes().that().resideInAPath(/\S\/domains\/[\S]+\/app/).shouldExist();
+    });
+
+    it('should throw non existing path class', async () => {
+      try {
+        classes().that().resideInAPath('non-existing').shouldExist();
         throw expectedError;
       } catch (e) {
         expect(e).not.to.eq(expectedError);
