@@ -19,9 +19,6 @@
     "build:typedoc": "typedoc",
     "build:typedoc:dev": "typedoc --watch"
   },
-  "keywords": [],
-  "author": "amaro0",
-  "license": "MIT",
   "devDependencies": {
     "@types/chai": "^4.3.0",
     "@types/mocha": "^9.1.0",
@@ -54,5 +51,14 @@
       "ts"
     ],
     "require": "ts-node/register/transpile-only"
-  }
+  },
+  "keywords": [
+    "testing",
+    "tests",
+    "architecture",
+    "unit",
+    "arch-unit"
+  ],
+  "author": "amaro0",
+  "license": "MIT"
 }
