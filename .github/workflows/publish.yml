@@ -3,7 +3,7 @@ on:
   release:
     types: [created]
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -13,8 +13,24 @@ jobs:
           node-version: '18.x'
           registry-url: 'https://registry.npmjs.org'
           cache: 'npm'
-      - run: npm install
+      - run: npm ci
       - run: npm run build
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+  pages-deploy:
+    runs-on: ubuntu-latest
+    needs: publish
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build:typedoc
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: typedoc
