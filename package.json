@@ -1,7 +1,8 @@
 {
   "name": "ts-arch-unit",
   "version": "0.0.1",
-  "description": "",
+  "description": "Unit test your typescript architecture. Inspired by ArchUnit.",
+  "homepage": "https://github.com/amaro0/ts-arch-unit",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -58,6 +59,9 @@
     "require": "ts-node/register/transpile-only"
   },
   "keywords": [
+    "ts",
+    "typescript",
+    "ast",
     "testing",
     "tests",
     "architecture",
