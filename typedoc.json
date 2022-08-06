@@ -1,7 +1,9 @@
 {
-  "entryPoints": [
-    "src"
-  ],
+  "entryPoints": ["src"],
   "out": "typedoc",
-  "entryPointStrategy": "expand"
+  "entryPointStrategy": "resolve",
+  "excludeInternal": true,
+  "excludeProtected": true,
+  "excludePrivate": true,
+  "excludeExternals": true
 }

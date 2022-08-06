@@ -1,2 +1,2 @@
-export { classes } from './queries/classes';
-export { files } from './queries/files';
+export * from './queries/classes';
+export * from './queries/files';
