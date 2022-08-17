@@ -60,4 +60,4 @@ only option is `root` describing folder of your ts source files
 
 ---
 
-API is not stable and might be changed in further releases.
+API is not stable and might be changed in future releases.
