@@ -1,6 +1,6 @@
 {
   "name": "ts-arch-unit",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Unit test your typescript architecture. Inspired by ArchUnit.",
   "homepage": "https://github.com/amaro0/ts-arch-unit",
   "main": "./dist/index.js",
