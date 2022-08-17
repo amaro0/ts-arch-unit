@@ -13,6 +13,10 @@ export abstract class QueryBuilder {
     return this;
   }
 
+  are(): this {
+    return this;
+  }
+
   should(): this {
     this.isAssert = true;
     return this;
@@ -36,7 +40,7 @@ export abstract class QueryBuilder {
   protected eqToken(name: string, token: Token): boolean {
     const isValid = typeof token === 'string' ? name === token : token.test(name);
 
-    if (!this.isNegated) {
+    if (this.isNegated) {
       this.isNegated = false;
       return !isValid;
     }

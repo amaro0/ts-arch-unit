@@ -92,4 +92,12 @@ export class ClassesQueryBuilder extends QueryBuilder {
       new ClassesDependencyQueryBuilder(this.projectMetaCrawler, this.classDeclarations),
     );
   }
+
+  excludedByMatchingName(token: Token): this {
+    this.classDeclarations = this.classDeclarations.filter((cd) => {
+      return !this.eqToken(cd.value.getName() ?? '', token);
+    });
+
+    return this;
+  }
 }

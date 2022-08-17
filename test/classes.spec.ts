@@ -193,4 +193,31 @@ describe('classes', () => {
       }
     });
   });
+
+  describe('excludedByMatchingName', () => {
+    it('should exclude many', async () => {
+      try {
+        classes()
+          .that()
+          .haveMatchingName(/CommandHandler/)
+          .and()
+          .are()
+          .excludedByMatchingName(/CommandHandler/)
+          .shouldExist();
+        throw expectedError;
+      } catch (e) {
+        expect(e).not.to.eq(expectedError);
+      }
+    });
+
+    it('should exclude only one', async () => {
+      classes()
+        .that()
+        .haveMatchingName(/CommandHandler/)
+        .and()
+        .are()
+        .excludedByMatchingName('CreateUserCommandHandler')
+        .shouldExist();
+    });
+  });
 });
