@@ -7,7 +7,9 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
+    "prepare": "husky install",
     "prebuild": "rm -rf dist",
+    "prepublishOnly": "npm run build",
     "scratch": "ts-node-dev --respawn ./src/scratch.ts",
     "format": "prettier --check \"./**/*.ts\"",
     "format:fix": "prettier --write \"./**/*.ts\"",
@@ -18,8 +20,7 @@
     "test": "mocha",
     "build": "tsc -p ./tsconfig.build.json",
     "build:typedoc": "typedoc",
-    "build:typedoc:dev": "typedoc --watch",
-    "prepare": "husky install"
+    "build:typedoc:dev": "typedoc --watch"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.0.3",
@@ -58,6 +59,9 @@
     ],
     "require": "ts-node/register/transpile-only"
   },
+  "files": [
+    "dist"
+  ],
   "keywords": [
     "ts",
     "typescript",
