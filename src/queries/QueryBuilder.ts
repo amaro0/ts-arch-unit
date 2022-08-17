@@ -25,7 +25,10 @@ export abstract class QueryBuilder {
   }
 
   protected eq<T extends Primitives>(a: T, b: T): boolean {
-    if (this.isNegated) return a !== b;
+    if (this.isNegated) {
+      this.isNegated = false;
+      return a !== b;
+    }
 
     return a === b;
   }
@@ -33,7 +36,11 @@ export abstract class QueryBuilder {
   protected eqToken(name: string, token: Token): boolean {
     const isValid = typeof token === 'string' ? name === token : token.test(name);
 
-    return this.isNegated ? !isValid : isValid;
+    if (!this.isNegated) {
+      this.isNegated = false;
+      return !isValid;
+    }
+    return isValid;
   }
 
   protected chainNot<T extends QueryBuilder>(otherQueryBuilder: T): T {
