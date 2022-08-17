@@ -1,4 +1,4 @@
-import { cosmiconfig, cosmiconfigSync } from 'cosmiconfig';
+import { cosmiconfigSync } from 'cosmiconfig';
 import * as path from 'path';
 
 interface IConfig {
@@ -6,7 +6,7 @@ interface IConfig {
   fullRoot: string;
 }
 
-const CONFIG_NAME = 'noarchtest';
+const CONFIG_NAME = 'tsarchunit';
 
 export function loadConfig(): IConfig {
   const explorer = cosmiconfigSync(CONFIG_NAME);
@@ -20,8 +20,6 @@ export function loadConfig(): IConfig {
 
     return { root: config.root, fullRoot: path.join(path.dirname(filepath), config.root) };
   } catch (error) {
-    // if (error.message) throw new Error(`Error while loading config: ${error.message}`);
-
     console.error(error);
     throw new Error('Error while loading config');
   }
