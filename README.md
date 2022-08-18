@@ -13,7 +13,7 @@ describe('example tests', () => {
   it('command handlers should not depend on concrete classes', async () => {
     classes()
       .that()
-      .haveMatchingName('/CommandHandler/')
+      .haveMatchingName(/CommandHandler/)
       .should()
       .not()
       .depend()
