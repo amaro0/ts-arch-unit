@@ -10,7 +10,7 @@ Should work with any test runner.
 
 ```typescript
 describe('example tests', () => {
-  it('command handlers should not depend on concrete classes', async () => {
+  it('command handlers should not depend on concrete classes', () => {
     classes()
       .that()
       .haveMatchingName(/CommandHandler/)
@@ -20,7 +20,7 @@ describe('example tests', () => {
       .onAnyConcreteImplementation();
   });
 
-  it('services directory should have propely named files', async () => {
+  it('services directory should have propely named files', () => {
     files()
       .that()
       .resideInADirectory('services')
@@ -28,7 +28,7 @@ describe('example tests', () => {
       .haveMatchingName(/[A-Za-z]+Service.ts/);
   });
 
-  it('controllers should not depend on repositories', async () => {
+  it('controllers should not depend on repositories', () => {
     files()
       .that()
       .resideInADirectory('controllers')
