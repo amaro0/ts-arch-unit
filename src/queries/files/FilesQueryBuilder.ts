@@ -1,4 +1,4 @@
-import { SourceFile } from 'ts-morph';
+import { SourceFile, TypeFlags } from 'ts-morph';
 
 import { ProjectMetaCrawler } from '../../ProjectMetaCrawler';
 import { Token } from '../../types';
@@ -123,10 +123,27 @@ export class FilesQueryBuilder extends QueryBuilder {
       const isInterfaceExported = f.getInterfaces().some((i) => i.isExported());
 
       if (!isInterfaceExported && this.isAssert) {
-        throw new Error(`File ${f.getBaseName()} is not exporting class`);
+        throw new Error(`File ${f.getBaseName()} is not exporting interface`);
       }
 
       return isInterfaceExported;
+    });
+
+    return this;
+  }
+
+  exportSymbol(): this {
+    this.files = this.files.filter((f) => {
+      const isSymbolExported = f.getVariableDeclarations().some((v) => {
+        return v.isExported() && v.getType().getFlags() === TypeFlags.UniqueESSymbol;
+      });
+      const isEqWithQueryCtx = this.eq(isSymbolExported, true);
+
+      if (!isEqWithQueryCtx && this.isAssert) {
+        throw new Error(`File ${f.getBaseName()} is not exporting symbol`);
+      }
+
+      return isEqWithQueryCtx;
     });
 
     return this;

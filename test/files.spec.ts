@@ -186,6 +186,10 @@ describe('files', () => {
         expect(e).not.to.eq(expectedError);
       }
     });
+
+    it('should pass for not query', () => {
+      files().that().haveMatchingName('types.ts').should().not().exportClass();
+    });
   });
 
   describe('exportInterface', () => {
@@ -195,7 +199,7 @@ describe('files', () => {
 
     it('should fail for incorrect filter query', () => {
       try {
-        files().that().haveMatchingName('types').and().exportInterface().shouldExist();
+        files().that().haveMatchingName('types.ts').and().exportInterface().shouldExist();
         throw expectedError;
       } catch (e) {
         expect(e).not.to.eq(expectedError);
@@ -213,6 +217,42 @@ describe('files', () => {
       } catch (e) {
         expect(e).not.to.eq(expectedError);
       }
+    });
+
+    it('should pass for not query', () => {
+      files().that().haveMatchingName('types.ts').should().not().exportInterface();
+    });
+  });
+
+  describe('exportSymbol', () => {
+    it('should pass for filter query', () => {
+      files().that().haveMatchingName('types.ts').and().exportSymbol().shouldExist();
+    });
+
+    it('should fail for incorrect filter query', () => {
+      try {
+        files().that().haveMatchingName('ICreateUser.ts').and().exportSymbol().shouldExist();
+        throw expectedError;
+      } catch (e) {
+        expect(e).not.to.eq(expectedError);
+      }
+    });
+
+    it('should pass for assert query', () => {
+      files().that().haveMatchingName('types.ts').should().exportSymbol();
+    });
+
+    it('should fail for incorrect assert query', () => {
+      try {
+        files().that().haveMatchingName('ICreateUser.ts').should().exportSymbol();
+        throw expectedError;
+      } catch (e) {
+        expect(e).not.to.eq(expectedError);
+      }
+    });
+
+    it('should pass for not exported symbol', () => {
+      files().that().haveMatchingName('nothingExported.ts').should().not().exportSymbol();
     });
   });
 });
