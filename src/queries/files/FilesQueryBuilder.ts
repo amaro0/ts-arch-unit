@@ -107,12 +107,13 @@ export class FilesQueryBuilder extends QueryBuilder {
   exportClass(): this {
     this.files = this.files.filter((f) => {
       const isClassExported = f.getClasses().some((cd) => cd.isExported());
+      const isEqWithQueryCtx = this.eq(isClassExported, true);
 
-      if (!isClassExported && this.isAssert) {
+      if (!isEqWithQueryCtx && this.isAssert) {
         throw new Error(`File ${f.getBaseName()} is not exporting class`);
       }
 
-      return isClassExported;
+      return isEqWithQueryCtx;
     });
 
     return this;
@@ -121,12 +122,13 @@ export class FilesQueryBuilder extends QueryBuilder {
   exportInterface(): this {
     this.files = this.files.filter((f) => {
       const isInterfaceExported = f.getInterfaces().some((i) => i.isExported());
+      const isEqWithQueryCtx = this.eq(isInterfaceExported, true);
 
-      if (!isInterfaceExported && this.isAssert) {
+      if (!isEqWithQueryCtx && this.isAssert) {
         throw new Error(`File ${f.getBaseName()} is not exporting interface`);
       }
 
-      return isInterfaceExported;
+      return isEqWithQueryCtx;
     });
 
     return this;
