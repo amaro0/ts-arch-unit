@@ -116,4 +116,18 @@ export class ClassesQueryBuilder extends QueryBuilder {
 
     return this;
   }
+
+  abstract(): this {
+    this.classDeclarations = this.classDeclarations.filter((cd) => {
+      const isAbstract = cd.value.isAbstract();
+
+      if (!isAbstract && this.isAssert) {
+        throw new Error(`Class ${cd.value.getName()} is not abstract`);
+      }
+
+      return isAbstract;
+    });
+
+    return this;
+  }
 }

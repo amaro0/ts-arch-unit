@@ -17,6 +17,10 @@ export abstract class QueryBuilder {
     return this;
   }
 
+  be(): this {
+    return this;
+  }
+
   should(): this {
     this.isAssert = true;
     return this;
