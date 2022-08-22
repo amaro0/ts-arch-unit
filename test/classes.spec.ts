@@ -306,4 +306,73 @@ describe('classes', () => {
       }
     });
   });
+
+  describe('haveMatchingAbstractMethod', () => {
+    it('should filter classes when abstract method is absent', async () => {
+      try {
+        classes()
+          .that()
+          .haveMatchingName(/CommandHandler/)
+          .and()
+          .haveMatchingAbstractMethod()
+          .shouldExist();
+        throw expectedError;
+      } catch (e) {
+        expect(e).not.to.eq(expectedError);
+      }
+    });
+
+    it('should filter classes when abstract method is absent and token is provided', async () => {
+      try {
+        classes()
+          .that()
+          .haveMatchingName(/CommandHandler/)
+          .and()
+          .haveMatchingAbstractMethod('shouldBeAbstract')
+          .shouldExist();
+        throw expectedError;
+      } catch (e) {
+        expect(e).not.to.eq(expectedError);
+      }
+    });
+
+    it('should not filter classes if abstract method is present', async () => {
+      classes()
+        .that()
+        .haveMatchingName(/CommandHandler/)
+        .and()
+        .haveMatchingAbstractMethod()
+        .shouldExist();
+    });
+
+    it('should not filter classes if abstract method is present and token is provided', async () => {
+      classes()
+        .that()
+        .haveMatchingName(/CommandHandler/)
+        .and()
+        .haveMatchingAbstractMethod(/handle/)
+        .shouldExist();
+    });
+
+    it('should pass in should mode', async () => {
+      classes()
+        .that()
+        .haveMatchingName('CreateCommandHandler')
+        .should()
+        .haveMatchingAbstractMethod(/handle/);
+    });
+
+    it('should throw in should mode', async () => {
+      try {
+        classes()
+          .that()
+          .haveMatchingName(/CommandHandler/)
+          .should()
+          .haveMatchingAbstractMethod(/handle/);
+        throw expectedError;
+      } catch (e) {
+        expect(e).not.to.eq(expectedError);
+      }
+    });
+  });
 });
