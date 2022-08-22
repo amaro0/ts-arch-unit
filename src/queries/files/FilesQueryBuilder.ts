@@ -117,4 +117,18 @@ export class FilesQueryBuilder extends QueryBuilder {
 
     return this;
   }
+
+  exportInterface(): this {
+    this.files = this.files.filter((f) => {
+      const isInterfaceExported = f.getInterfaces().some((i) => i.isExported());
+
+      if (!isInterfaceExported && this.isAssert) {
+        throw new Error(`File ${f.getBaseName()} is not exporting class`);
+      }
+
+      return isInterfaceExported;
+    });
+
+    return this;
+  }
 }

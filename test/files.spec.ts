@@ -167,7 +167,7 @@ describe('files', () => {
 
     it('should fail for incorrect filter query', () => {
       try {
-        files().that().haveMatchingName('types').and().exportClass().shouldExist();
+        files().that().haveMatchingName('types.ts').and().exportClass().shouldExist();
         throw expectedError;
       } catch (e) {
         expect(e).not.to.eq(expectedError);
@@ -181,6 +181,34 @@ describe('files', () => {
     it('should fail for incorrect assert query', () => {
       try {
         files().that().haveMatchingName('types.ts').should().exportClass();
+        throw expectedError;
+      } catch (e) {
+        expect(e).not.to.eq(expectedError);
+      }
+    });
+  });
+
+  describe('exportInterface', () => {
+    it('should pass for filter query', () => {
+      files().that().haveMatchingName('ICreateUser.ts').and().exportInterface().shouldExist();
+    });
+
+    it('should fail for incorrect filter query', () => {
+      try {
+        files().that().haveMatchingName('types').and().exportInterface().shouldExist();
+        throw expectedError;
+      } catch (e) {
+        expect(e).not.to.eq(expectedError);
+      }
+    });
+
+    it('should pass for assert query', () => {
+      files().that().haveMatchingName('ICreateUser.ts').should().exportInterface();
+    });
+
+    it('should fail for incorrect assert query', () => {
+      try {
+        files().that().haveMatchingName('types.ts').should().exportInterface();
         throw expectedError;
       } catch (e) {
         expect(e).not.to.eq(expectedError);
