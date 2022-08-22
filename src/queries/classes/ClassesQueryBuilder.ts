@@ -100,4 +100,20 @@ export class ClassesQueryBuilder extends QueryBuilder {
 
     return this;
   }
+
+  haveMatchingMethod(token: Token): this {
+    this.classDeclarations = this.classDeclarations.filter((cd) => {
+      const methods = cd.value.getMethods();
+
+      const hasMethod = methods.some((method) => this.eqToken(method.getName(), token));
+
+      if (!hasMethod && this.isAssert) {
+        throw new Error(`Method ${token} is not found in class ${cd.value.getName()}`);
+      }
+
+      return hasMethod;
+    });
+
+    return this;
+  }
 }
