@@ -220,4 +220,50 @@ describe('classes', () => {
         .shouldExist();
     });
   });
+
+  describe('haveMatchingMethod', () => {
+    it('should filter classes is method is absent', async () => {
+      try {
+        classes()
+          .that()
+          .haveMatchingName(/CommandHandler/)
+          .and()
+          .haveMatchingMethod(/wrongMethod/)
+          .shouldExist();
+        throw expectedError;
+      } catch (e) {
+        expect(e).not.to.eq(expectedError);
+      }
+    });
+
+    it('should not filter classes if method is present', async () => {
+      classes()
+        .that()
+        .haveMatchingName(/CommandHandler/)
+        .and()
+        .haveMatchingMethod(/handle/)
+        .shouldExist();
+    });
+
+    it('should pass in should mode', async () => {
+      classes()
+        .that()
+        .haveMatchingName(/CommandHandler/)
+        .should()
+        .haveMatchingMethod(/handle/);
+    });
+
+    it('should throw in should mode', async () => {
+      try {
+        classes()
+          .that()
+          .haveMatchingName(/CommandHandler/)
+          .should()
+          .haveMatchingMethod(/wrongMethod/);
+        throw expectedError;
+      } catch (e) {
+        expect(e).not.to.eq(expectedError);
+      }
+    });
+  });
 });
