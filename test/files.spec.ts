@@ -287,4 +287,75 @@ describe('files', () => {
       files().that().haveMatchingName('nothingExported.ts').should().not().exportSymbol();
     });
   });
+
+  describe('exportFunc', () => {
+    describe('arrow', () => {
+      it('should pass for filter query', () => {
+        files()
+          .that()
+          .haveMatchingName('exportedArrowFunc.ts')
+          .and()
+          .exportFunction()
+          .shouldExist();
+      });
+
+      it('should fail for incorrect filter query', () => {
+        try {
+          files().that().haveMatchingName('ICreateUser.ts').and().exportFunction().shouldExist();
+          throw expectedError;
+        } catch (e) {
+          expect(e).not.to.eq(expectedError);
+        }
+      });
+
+      it('should pass for assert query', () => {
+        files().that().haveMatchingName('exportedArrowFunc.ts').should().exportFunction();
+      });
+
+      it('should fail for incorrect assert query', () => {
+        try {
+          files().that().haveMatchingName('ICreateUser.ts').should().exportFunction();
+          throw expectedError;
+        } catch (e) {
+          expect(e).not.to.eq(expectedError);
+        }
+      });
+
+      it('should pass for not exported symbol', () => {
+        files().that().haveMatchingName('nothingExported.ts').should().not().exportFunction();
+      });
+    });
+
+    describe('normal', () => {
+      it('should pass for filter query', () => {
+        files().that().haveMatchingName('exportedFunc.ts').and().exportFunction().shouldExist();
+      });
+
+      it('should fail for incorrect filter query', () => {
+        try {
+          files().that().haveMatchingName('ICreateUser.ts').and().exportFunction().shouldExist();
+          throw expectedError;
+        } catch (e) {
+          expect(e).not.to.eq(expectedError);
+        }
+      });
+
+      it('should pass for assert query', () => {
+        files().that().haveMatchingName('exportedFunc.ts').should().exportFunction();
+      });
+
+      it('should fail for incorrect assert query', () => {
+        try {
+          files().that().haveMatchingName('ICreateUser.ts').should().exportFunction();
+          throw expectedError;
+        } catch (e) {
+          expect(e).not.to.eq(expectedError);
+        }
+      });
+
+      it('should pass for not exported symbol', () => {
+        files().that().haveMatchingName('nothingExported.ts').should().not().exportFunction();
+      });
+    });
+  });
 });
