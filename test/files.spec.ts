@@ -6,18 +6,18 @@ describe('files', () => {
   const expectedError = new Error('Expected error');
 
   describe('haveMatchingName', () => {
-    it('should pass on existing file name', async () => {
+    it('should pass on existing file name', () => {
       files().that().haveMatchingName('CreateUserCommandHandler.ts').shouldExist();
     });
 
-    it('should find by regexp', async () => {
+    it('should find by regexp', () => {
       files()
         .that()
         .haveMatchingName(/CommandHandler/)
         .shouldExist();
     });
 
-    it('should throw non declared class', async () => {
+    it('should throw non declared class', () => {
       try {
         files().that().haveMatchingName('bread').shouldExist();
         throw expectedError;
@@ -26,7 +26,7 @@ describe('files', () => {
       }
     });
 
-    it('should pass on existing file name assert', async () => {
+    it('should pass on existing file name assert', () => {
       files()
         .that()
         .resideInADirectory('services')
@@ -34,7 +34,7 @@ describe('files', () => {
         .haveMatchingName(/[A-Za-z]+Service.ts/);
     });
 
-    it('should throw incorrect file name assert', async () => {
+    it('should throw incorrect file name assert', () => {
       try {
         files()
           .that()
@@ -49,15 +49,15 @@ describe('files', () => {
   });
 
   describe('resideInADirectory', () => {
-    it('should pass when file is in dir', async () => {
+    it('should pass when file is in dir', () => {
       files().resideInADirectory('core').shouldExist();
     });
 
-    it('should search dirs by regex', async () => {
+    it('should search dirs by regex', () => {
       files().that().resideInADirectory(/core/).shouldExist();
     });
 
-    it('should assert that no directory exists', async () => {
+    it('should assert that no directory exists', () => {
       try {
         files().that().resideInADirectory('non-existing').shouldExist();
         throw expectedError;
@@ -66,7 +66,7 @@ describe('files', () => {
       }
     });
 
-    it('should combine files with matching name', async () => {
+    it('should combine files with matching name', () => {
       try {
         files().that().haveMatchingName('types.ts').resideInADirectory('not-common').shouldExist();
         throw expectedError;
@@ -75,7 +75,7 @@ describe('files', () => {
       }
     });
 
-    it('should pass on correct dir assert', async () => {
+    it('should pass on correct dir assert', () => {
       files()
         .that()
         .haveMatchingName(/[A-Za-z]+Service.ts/)
@@ -83,7 +83,7 @@ describe('files', () => {
         .resideInADirectory('services');
     });
 
-    it('should throw incorrect dir assert', async () => {
+    it('should throw incorrect dir assert', () => {
       try {
         files()
           .that()
@@ -96,7 +96,7 @@ describe('files', () => {
       }
     });
 
-    it('should pass on negated incorrect dir assert', async () => {
+    it('should pass on negated incorrect dir assert', () => {
       files()
         .that()
         .haveMatchingName(/[A-Za-z]+Service.ts/)
@@ -107,7 +107,7 @@ describe('files', () => {
   });
 
   describe('dependOn', () => {
-    it('should pass on dependency not reside in check', async () => {
+    it('should pass on dependency not reside in check', () => {
       files()
         .that()
         .resideInADirectory('controllers')
@@ -118,7 +118,7 @@ describe('files', () => {
         .resideInADirectory('repositories');
     });
 
-    it('should throw on dependency not reside in check', async () => {
+    it('should throw on dependency not reside in check', () => {
       try {
         files()
           .that()
@@ -133,7 +133,7 @@ describe('files', () => {
       }
     });
 
-    it('should pass dependency has matching name check', async () => {
+    it('should pass dependency has matching name check', () => {
       files()
         .that()
         .resideInADirectory('controllers')
@@ -144,7 +144,7 @@ describe('files', () => {
         .haveMatchingName('/Repository/');
     });
 
-    it('should on dependency has matching name check', async () => {
+    it('should on dependency has matching name check', () => {
       try {
         files()
           .that()
@@ -153,6 +153,34 @@ describe('files', () => {
           .dependOnFiles()
           .that()
           .haveMatchingName('/Repository/');
+        throw expectedError;
+      } catch (e) {
+        expect(e).not.to.eq(expectedError);
+      }
+    });
+  });
+
+  describe('exportClass', () => {
+    it('should pass for filter query', () => {
+      files().that().haveMatchingName('CorrectLayerService.ts').and().exportClass().shouldExist();
+    });
+
+    it('should fail for incorrect filter query', () => {
+      try {
+        files().that().haveMatchingName('types').and().exportClass().shouldExist();
+        throw expectedError;
+      } catch (e) {
+        expect(e).not.to.eq(expectedError);
+      }
+    });
+
+    it('should pass for assert query', () => {
+      files().that().haveMatchingName('CorrectLayerService.ts').should().exportClass();
+    });
+
+    it('should fail for incorrect assert query', () => {
+      try {
+        files().that().haveMatchingName('types.ts').should().exportClass();
         throw expectedError;
       } catch (e) {
         expect(e).not.to.eq(expectedError);

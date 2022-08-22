@@ -103,4 +103,18 @@ export class FilesQueryBuilder extends QueryBuilder {
 
     return this;
   }
+
+  exportClass(): this {
+    this.files = this.files.filter((f) => {
+      const isClassExported = f.getClasses().some((cd) => cd.isExported());
+
+      if (!isClassExported && this.isAssert) {
+        throw new Error(`File ${f.getBaseName()} is not exporting class`);
+      }
+
+      return isClassExported;
+    });
+
+    return this;
+  }
 }
