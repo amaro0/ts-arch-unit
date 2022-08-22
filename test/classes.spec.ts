@@ -266,4 +266,44 @@ describe('classes', () => {
       }
     });
   });
+
+  describe('abstract', () => {
+    it('should filter abstract classes', async () => {
+      try {
+        classes()
+          .that()
+          .haveMatchingName(/Service/)
+          .and()
+          .are()
+          .abstract()
+          .shouldExist();
+        throw expectedError;
+      } catch (e) {
+        expect(e).not.to.eq(expectedError);
+      }
+    });
+
+    it('should not filter abstract classes if method is present', async () => {
+      classes()
+        .that()
+        .haveMatchingName(/CommandHandler/)
+        .and()
+        .are()
+        .abstract()
+        .shouldExist();
+    });
+
+    it('should pass in should mode', async () => {
+      classes().that().haveMatchingName('CreateCommandHandler').should().be().abstract();
+    });
+
+    it('should throw in should mode', async () => {
+      try {
+        classes().that().haveMatchingName('CreateUserCommandHandler').should().be().abstract();
+        throw expectedError;
+      } catch (e) {
+        expect(e).not.to.eq(expectedError);
+      }
+    });
+  });
 });
