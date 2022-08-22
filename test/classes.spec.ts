@@ -312,7 +312,7 @@ describe('classes', () => {
       try {
         classes()
           .that()
-          .haveMatchingName(/CommandHandler/)
+          .haveMatchingName(/Service/)
           .and()
           .haveMatchingAbstractMethod()
           .shouldExist();

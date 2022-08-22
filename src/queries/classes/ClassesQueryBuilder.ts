@@ -117,6 +117,28 @@ export class ClassesQueryBuilder extends QueryBuilder {
     return this;
   }
 
+  haveMatchingAbstractMethod(token?: Token): this {
+    this.classDeclarations = this.classDeclarations.filter((cd) => {
+      const methods = cd.value.getMethods();
+
+      const hasMethod = methods.some(
+        (method) =>
+          (!token && method.isAbstract()) ||
+          (token && method.isAbstract() && this.eqToken(method.getName(), token)),
+      );
+
+      if (!hasMethod && this.isAssert) {
+        throw new Error(
+          `Abstract method ${token ?? ''} is not found in class ${cd.value.getName()}`,
+        );
+      }
+
+      return hasMethod;
+    });
+
+    return this;
+  }
+
   abstract(): this {
     this.classDeclarations = this.classDeclarations.filter((cd) => {
       const isAbstract = cd.value.isAbstract();
