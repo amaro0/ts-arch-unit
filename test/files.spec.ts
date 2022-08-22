@@ -224,6 +224,38 @@ describe('files', () => {
     });
   });
 
+  describe('exportType', () => {
+    it('should pass for filter query', () => {
+      files().that().haveMatchingName('types.ts').and().exportType().shouldExist();
+    });
+
+    it('should fail for incorrect filter query', () => {
+      try {
+        files().that().haveMatchingName('ICreateUser.ts').and().exportType().shouldExist();
+        throw expectedError;
+      } catch (e) {
+        expect(e).not.to.eq(expectedError);
+      }
+    });
+
+    it('should pass for assert query', () => {
+      files().that().haveMatchingName('types.ts').should().exportType();
+    });
+
+    it('should fail for incorrect assert query', () => {
+      try {
+        files().that().haveMatchingName('ICreateUser.ts').should().exportType();
+        throw expectedError;
+      } catch (e) {
+        expect(e).not.to.eq(expectedError);
+      }
+    });
+
+    it('should pass for not query', () => {
+      files().that().haveMatchingName('ICreateUser.ts').should().not().exportType();
+    });
+  });
+
   describe('exportSymbol', () => {
     it('should pass for filter query', () => {
       files().that().haveMatchingName('types.ts').and().exportSymbol().shouldExist();

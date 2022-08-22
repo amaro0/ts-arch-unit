@@ -134,6 +134,21 @@ export class FilesQueryBuilder extends QueryBuilder {
     return this;
   }
 
+  exportType(): this {
+    this.files = this.files.filter((f) => {
+      const isTypeExported = f.getTypeAliases().some((te) => te.isExported());
+      const isEqWithQueryCtx = this.eq(isTypeExported, true);
+
+      if (!isEqWithQueryCtx && this.isAssert) {
+        throw new Error(`File ${f.getBaseName()} is not exporting types`);
+      }
+
+      return isEqWithQueryCtx;
+    });
+
+    return this;
+  }
+
   exportSymbol(): this {
     this.files = this.files.filter((f) => {
       const isSymbolExported = f.getVariableDeclarations().some((v) => {
