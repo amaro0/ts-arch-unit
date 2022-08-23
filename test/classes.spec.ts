@@ -156,6 +156,28 @@ describe('classes', () => {
         expect(e).not.to.eq(expectedError);
       }
     });
+
+    it('should filter', async () => {
+      classes()
+        .that()
+        .haveMatchingName(/CommandHandler/)
+        .and()
+        .implementInterface('ICreateUser')
+        .shouldExist();
+    });
+
+    it('should filter without token', async () => {
+      classes()
+        .that()
+        .haveMatchingName('CreateUserCommandHandler')
+        .and()
+        .implementInterface()
+        .shouldExist();
+    });
+
+    it('should assert without token', async () => {
+      classes().that().haveMatchingName('CreateUserCommandHandler').should().implementInterface();
+    });
   });
 
   describe('extendClass', () => {

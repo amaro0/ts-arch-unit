@@ -94,16 +94,34 @@ export class ClassesQueryBuilder extends QueryBuilder {
     return this;
   }
 
-  implementInterface(token: Token): this {
-    this.classDeclarations.forEach((cd) => {
+  /**
+   * Filters or asserts classes by interfaces. If used without token matches any class.
+   */
+  implementInterface(token?: Token): this {
+    this.classDeclarations = this.classDeclarations.filter((cd) => {
       const interfaceDeclarations = this.projectMetaCrawler.getInterfacesForClass(cd);
 
-      interfaceDeclarations.forEach((id) => {
-        if (!this.eqToken(id.getName(), token)) {
+      if (!token) {
+        const eq = this.eq(!!interfaceDeclarations.length, true);
+        if (this.isAssert && !eq) {
           throw new Error(
-            `Class ${cd.value.getName()} interface ${id.getFullText()} implementation error`,
+            `Class ${cd.value.getName()} ${
+              this.isNegated ? 'should not' : 'should'
+            } implement interface`,
           );
         }
+        return eq;
+      }
+
+      return interfaceDeclarations.some((id) => {
+        const eq = this.eqToken(id.getName(), token);
+        if (!eq && this.isAssert) {
+          throw new Error(
+            `Class ${cd.value.getName()} interface ${id.getName()} implementation error`,
+          );
+        }
+
+        return eq;
       });
     });
 
