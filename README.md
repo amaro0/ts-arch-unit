@@ -58,6 +58,30 @@ only option is `root` describing folder of your ts source files
 }
 ```
 
+### How to write queries
+
+There are few general rules that might help you write powerful queries without issues:
+
+- Query has to be started by selecting proper entity. Right now you can start query by using
+  `classes()` or `files()`.
+- Most query methods work in two modes, **filter** or **assert** mode. Filter mode is enabled by
+  default just after starting query. Assert mode is toggled **AFTER** running `.should()`. That
+  means you can write
+  `classes().that().haveMatchingName(/CommandHandler/).and().resideInDirectory('core')` to select
+  classes that will be asserted and then by appending
+  `.should().implementInterface('ICommand').and().haveMatchingMethod('handle')`.
+- After running `.should()` there is no possibility for entering filter mode in the same query.
+  Write new query instead.
+- **ALL** methods are affected by `.not()` both in filter and assert mode. Negation is canceled
+  after one method. That means you can write queries like
+  `classes().that().haveMatchingName(/Repository/).should().not().resideInADirectory('core');`methods
+  or
+  `classes().that().not().haveMatchingName(/Repository/).should().not().resideInADirectory('repositories');`.
+- Right now only methods that are not working in assert mode are for exceptions excluding( e.g.
+  `excludedByMatchingName`).
+
+That's all. The rest is your imagination and endless chaining of available methods :>
+
 ---
 
 API is not stable and might be changed in future releases.
