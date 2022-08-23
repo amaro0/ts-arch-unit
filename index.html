@@ -40,6 +40,31 @@ only option is <code>root</code> describing folder of your ts source files</p>
 </a>
 <pre><code class="language-json"><span class="hl-1">{</span><br/><span class="hl-1">  </span><span class="hl-7">&quot;root&quot;</span><span class="hl-1">: </span><span class="hl-2">&quot;src&quot;</span><br/><span class="hl-1">}</span>
 </code></pre>
+
+<a href="#how-to-write-queries" id="how-to-write-queries" style="color: inherit; text-decoration: none;">
+  <h3>How to write queries</h3>
+</a>
+<p>There are few general rules that might help you write powerful queries without issues:</p>
+<ul>
+<li>Query has to be started by selecting proper entity. Right now you can start query by using
+<code>classes()</code> or <code>files()</code>.</li>
+<li>Most query methods work in two modes, <strong>filter</strong> or <strong>assert</strong> mode. Filter mode is enabled by
+default just after starting query. Assert mode is toggled <strong>AFTER</strong> running <code>.should()</code>. That
+means you can write
+<code>classes().that().haveMatchingName(/CommandHandler/).and().resideInDirectory(&#39;core&#39;)</code> to select
+classes that will be asserted and then by appending
+<code>.should().implementInterface(&#39;ICommand&#39;).and().haveMatchingMethod(&#39;handle&#39;)</code>.</li>
+<li>After running <code>.should()</code> there is no possibility for entering filter mode in the same query.
+Write new query instead.</li>
+<li><strong>ALL</strong> methods are affected by <code>.not()</code> both in filter and assert mode. Negation is canceled
+after one method. That means you can write queries like
+<code>classes().that().haveMatchingName(/Repository/).should().not().resideInADirectory(&#39;core&#39;);</code>methods
+or
+<code>classes().that().not().haveMatchingName(/Repository/).should().not().resideInADirectory(&#39;repositories&#39;);</code>.</li>
+<li>Right now only methods that are not working in assert mode are for exceptions excluding( e.g.
+<code>excludedByMatchingName</code>).</li>
+</ul>
+<p>That&#39;s all. The rest is your imagination and endless chaining of available methods :&gt;</p>
 <hr>
 <p>API is not stable and might be changed in future releases.</p>
 </div></div>
