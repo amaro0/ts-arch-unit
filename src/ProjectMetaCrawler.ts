@@ -47,28 +47,6 @@ export class ProjectMetaCrawler {
     });
   }
 
-  getClassesByDirectory(token: Token): IDiscoveredNode<ClassDeclaration>[] {
-    const sourceFilesInDir =
-      typeof token === 'string'
-        ? this.sourceFiles.filter((sf) => sf.getDirectoryPath().split('/').pop() === token)
-        : this.sourceFiles.filter((sf) => token.test(sf.getDirectoryPath()));
-
-    return sourceFilesInDir.flatMap((sf) => {
-      const sfBaseName = sf.getBaseName();
-      const classes = sf.getClasses();
-
-      return classes.map((c) => ({ sourceFileBaseName: sfBaseName, value: c }));
-    });
-  }
-
-  getClassesByName(token: Token): IDiscoveredNode<ClassDeclaration>[] {
-    if (typeof token === 'string') {
-      return this.classesArr.filter((c) => c.value.getName() === token);
-    }
-
-    return this.classesArr.filter((c) => token.test(c.value.getName() ?? ''));
-  }
-
   getDirectoryForClass(node: IDiscoveredNode<ClassDeclaration>): Directory {
     const { sourceFileBaseName } = node;
 
