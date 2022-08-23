@@ -18,6 +18,7 @@
     "lint:fresh": "eslint \"{src,apps,libs,test}/**/*.ts\"",
     "typecheck": "tsc --noEmit",
     "test": "mocha",
+    "test:cov": "nyc mocha && nyc report --reporter=text-lcov | coveralls",
     "build": "tsc -p ./tsconfig.build.json",
     "build:typedoc": "typedoc",
     "build:typedoc:dev": "typedoc --watch"
@@ -31,6 +32,7 @@
     "@typescript-eslint/eslint-plugin": "^4.28.0",
     "@typescript-eslint/parser": "^4.28.0",
     "chai": "^4.3.6",
+    "coveralls": "^3.1.1",
     "eslint": "^7.29.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-airbnb-typescript": "^14.0.0",
