@@ -1,5 +1,17 @@
 # ts-arch-unit
 
+<p align="center">
+    <a href="https://img.shields.io/github/workflow/status/amaro0/ts-arch-unit/CI/master" alt="Build">
+        <img src="https://img.shields.io/github/workflow/status/amaro0/ts-arch-unit/CI/master" />
+    </a>
+    <a href="https://github.com/amaro0/ts-arch-unit/blob/master/LICENSE" alt="License">
+        <img src="https://img.shields.io/github/license/amaro0/ts-arch-unit" />
+    </a>
+    <a href="https://github.com/amaro0/ts-arch-unit/blob/master/LICENSE" alt="Coverage">
+        <img src="https://img.shields.io/github/license/amaro0/ts-arch-unit" />
+    </a>
+</p>
+
 Unit test your typescript architecture. Inspired by [ArchUnit](https://www.archunit.org/).
 
 Explore all available methods on https://amaro0.github.io/ts-arch-unit/.
