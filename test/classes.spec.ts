@@ -192,6 +192,29 @@ describe('classes', () => {
         expect(e).not.to.eq(expectedError);
       }
     });
+
+    it('should filter', async () => {
+      classes().that().haveMatchingName('UsersController').extendClass().shouldExist();
+    });
+
+    it('should filter with token', async () => {
+      classes().that().haveMatchingName('UsersController').extendClass('Controller').shouldExist();
+    });
+
+    it('should filter with not', async () => {
+      try {
+        classes()
+          .that()
+          .haveMatchingName('UsersController')
+          .and()
+          .not()
+          .extendClass()
+          .shouldExist();
+        throw expectedError;
+      } catch (e) {
+        expect(e).to.be.not.eql(expectedError);
+      }
+    });
   });
 
   describe('excludedByMatchingName', () => {

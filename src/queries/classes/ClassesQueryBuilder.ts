@@ -69,15 +69,23 @@ export class ClassesQueryBuilder extends QueryBuilder {
   }
 
   extendClass(token?: Token): this {
-    this.classDeclarations.forEach((cd) => {
+    this.classDeclarations = this.classDeclarations.filter((cd) => {
       const { value } = cd;
 
       const baseClass = value.getBaseClass();
 
-      if (!baseClass) throw new Error(`Class ${value.getName()} does not have base class`);
-      if (token && !this.eqToken(baseClass.getName()!, token)) {
-        throw new Error(`Class ${value.getName()} extends incorrect class`);
+      if (this.isAssert) {
+        if (!baseClass) throw new Error(`Class ${value.getName()} does not have base class`);
+        if (token && !this.eqToken(baseClass.getName()!, token)) {
+          throw new Error(`Class ${value.getName()} extends incorrect class`);
+        }
       }
+
+      if (!token) return this.eq(!!baseClass, true);
+      if (token && baseClass) {
+        return this.eqToken(baseClass.getName() ?? '', token);
+      }
+      return false;
     });
 
     return this;
