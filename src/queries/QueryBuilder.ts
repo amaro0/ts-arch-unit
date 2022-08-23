@@ -5,27 +5,45 @@ export abstract class QueryBuilder {
 
   protected isAssert: boolean = false;
 
+  /**
+   * Utility method used for elegant chaining.
+   */
   that(): this {
     return this;
   }
 
+  /**
+   * Utility method used for elegant chaining.
+   */
   and(): this {
     return this;
   }
 
+  /**
+   * Utility method used for elegant chaining.
+   */
   are(): this {
     return this;
   }
 
+  /**
+   * Utility method used for elegant chaining.
+   */
   be(): this {
     return this;
   }
 
+  /**
+   * Switches query to assert mode.
+   */
   should(): this {
     this.isAssert = true;
     return this;
   }
 
+  /**
+   * Negates next filter or async query method. Works only for single method. Can be used endless amount of times across query.
+   */
   not(): this {
     this.isNegated = !this.isNegated;
 
