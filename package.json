@@ -18,7 +18,8 @@
     "lint:fresh": "eslint \"{src,apps,libs,test}/**/*.ts\"",
     "typecheck": "tsc --noEmit",
     "test": "mocha",
-    "test:cov": "nyc mocha && nyc report --reporter=text-lcov",
+    "test:cov": "nyc npm test",
+    "test:cov:report": "nyc --reporter=lcov npm test",
     "build": "tsc -p ./tsconfig.build.json",
     "build:typedoc": "typedoc",
     "build:typedoc:dev": "typedoc --watch"
