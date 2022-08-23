@@ -7,8 +7,8 @@
     <a href="https://github.com/amaro0/ts-arch-unit/blob/master/LICENSE" alt="License">
         <img src="https://img.shields.io/github/license/amaro0/ts-arch-unit" />
     </a>
-    <a href="https://github.com/amaro0/ts-arch-unit/blob/master/LICENSE" alt="Coverage">
-        <img src="https://img.shields.io/github/license/amaro0/ts-arch-unit" />
+    <a href='https://coveralls.io/github/amaro0/ts-arch-unit?branch=master'>
+      <img src='https://coveralls.io/repos/github/amaro0/ts-arch-unit/badge.svg?branch=master' alt='Coverage Status' />
     </a>
 </p>
 
