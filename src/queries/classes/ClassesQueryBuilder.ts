@@ -14,12 +14,18 @@ export class ClassesQueryBuilder extends QueryBuilder {
     this.classDeclarations = Array.from(this.projectMetaCrawler.classesArr);
   }
 
+  /**
+   * Asserts that there are classes for selected filters.
+   */
   shouldExist(): this {
     if (!this.classDeclarations.length) throw new Error('No classes exists');
 
     return this;
   }
 
+  /**
+   * Filters or asserts classes by name.
+   */
   haveMatchingName(token: Token): ClassesQueryBuilder {
     this.classDeclarations = this.classDeclarations.filter((node) => {
       const eq = this.eqToken(node.value.getName() ?? '', token);
@@ -32,6 +38,9 @@ export class ClassesQueryBuilder extends QueryBuilder {
     return this;
   }
 
+  /**
+   * Filters or asserts classes by path.
+   */
   resideInAPath(token: Token): this {
     this.classDeclarations = this.classDeclarations.filter((cd) => {
       const sf = this.projectMetaCrawler.getSourceFileForBaseName(cd.sourceFileBaseName);
@@ -42,6 +51,9 @@ export class ClassesQueryBuilder extends QueryBuilder {
     return this;
   }
 
+  /**
+   * Filters or asserts classes by directory.
+   */
   resideInADirectory(token: Token): this {
     this.classDeclarations = this.classDeclarations.filter((cd) => {
       const dir = this.projectMetaCrawler.getDirectoryForClass(cd);
@@ -87,12 +99,18 @@ export class ClassesQueryBuilder extends QueryBuilder {
     return this;
   }
 
+  /**
+   * Switches query to class dependency. Passes currently filtered classes
+   */
   depend(): ClassesDependencyQueryBuilder {
     return this.chainNot(
       new ClassesDependencyQueryBuilder(this.projectMetaCrawler, this.classDeclarations),
     );
   }
 
+  /**
+   * Excludes classes from future asserts by name.
+   */
   excludedByMatchingName(token: Token): this {
     this.classDeclarations = this.classDeclarations.filter((cd) => {
       return !this.eqToken(cd.value.getName() ?? '', token);
@@ -101,6 +119,9 @@ export class ClassesQueryBuilder extends QueryBuilder {
     return this;
   }
 
+  /**
+   * Filters or asserts classes by method name.
+   */
   haveMatchingMethod(token: Token): this {
     this.classDeclarations = this.classDeclarations.filter((cd) => {
       const methods = cd.value.getMethods();
@@ -117,6 +138,9 @@ export class ClassesQueryBuilder extends QueryBuilder {
     return this;
   }
 
+  /**
+   * Filters or asserts classes by abstract method name.
+   */
   haveMatchingAbstractMethod(token?: Token): this {
     this.classDeclarations = this.classDeclarations.filter((cd) => {
       const methods = cd.value.getMethods();
@@ -139,6 +163,9 @@ export class ClassesQueryBuilder extends QueryBuilder {
     return this;
   }
 
+  /**
+   * Filters or asserts classes by checking if class is abstract.
+   */
   abstract(): this {
     this.classDeclarations = this.classDeclarations.filter((cd) => {
       const isAbstract = cd.value.isAbstract();
