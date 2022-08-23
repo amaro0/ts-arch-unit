@@ -10,17 +10,13 @@ const CONFIG_NAME = 'tsarchunit';
 
 export function loadConfig(): IConfig {
   const explorer = cosmiconfigSync(CONFIG_NAME);
-  try {
-    const result = explorer.search();
 
-    if (!result || result.isEmpty) throw new Error('Config is empty');
+  const result = explorer.search();
 
-    const { filepath, config } = result;
-    if (!config.root) throw new Error('Config root is missing');
+  if (!result || result.isEmpty) throw new Error('Config is empty');
 
-    return { root: config.root, fullRoot: path.join(path.dirname(filepath), config.root) };
-  } catch (error) {
-    console.error(error);
-    throw new Error('Error while loading config');
-  }
+  const { filepath, config } = result;
+  if (!config.root) throw new Error('Config root is missing');
+
+  return { root: config.root, fullRoot: path.join(path.dirname(filepath), config.root) };
 }
