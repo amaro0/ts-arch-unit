@@ -68,6 +68,9 @@ export class ClassesQueryBuilder extends QueryBuilder {
     return this;
   }
 
+  /**
+   * Filters or asserts classes by class that extends selected. If used without token matches any class.
+   */
   extendClass(token?: Token): this {
     this.classDeclarations = this.classDeclarations.filter((cd) => {
       const { value } = cd;
