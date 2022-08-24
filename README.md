@@ -85,10 +85,9 @@ There are few general rules that might help you write powerful queries without i
 - After running `.should()` there is no possibility for entering filter mode in the same query.
   Write new query instead.
 - **ALL** methods are affected by `.not()` both in filter and assert mode. Negation is canceled
-  after one method. That means you can write queries like
-  `classes().that().haveMatchingName(/Repository/).should().not().resideInADirectory('core');`methods
-  or
-  `classes().that().not().haveMatchingName(/Repository/).should().not().resideInADirectory('repositories');`.
+  after one method. That means you can write queries like:
+  - `classes().that().haveMatchingName(/Repository/).should().not().resideInADirectory('core');`
+  - `classes().that().not().haveMatchingName(/Repository/).should().not().resideInADirectory('repositories');`.
 - Right now only methods that are not working in assert mode are for exceptions excluding( e.g.
   `excludedByMatchingName`).
 
