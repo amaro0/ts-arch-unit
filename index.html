@@ -69,10 +69,11 @@ classes that will be asserted and then by appending
 <li>After running <code>.should()</code> there is no possibility for entering filter mode in the same query.
 Write new query instead.</li>
 <li><strong>ALL</strong> methods are affected by <code>.not()</code> both in filter and assert mode. Negation is canceled
-after one method. That means you can write queries like
-<code>classes().that().haveMatchingName(/Repository/).should().not().resideInADirectory(&#39;core&#39;);</code>methods
-or
-<code>classes().that().not().haveMatchingName(/Repository/).should().not().resideInADirectory(&#39;repositories&#39;);</code>.</li>
+after one method. That means you can write queries like:<ul>
+<li><code>classes().that().haveMatchingName(/Repository/).should().not().resideInADirectory(&#39;core&#39;);</code></li>
+<li><code>classes().that().not().haveMatchingName(/Repository/).should().not().resideInADirectory(&#39;repositories&#39;);</code>.</li>
+</ul>
+</li>
 <li>Right now only methods that are not working in assert mode are for exceptions excluding( e.g.
 <code>excludedByMatchingName</code>).</li>
 </ul>
