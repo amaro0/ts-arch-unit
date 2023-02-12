@@ -7,6 +7,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+
+- files resideInAPath assert/filter
+
 ## [0.1.1] - 2023-02-11
 
 ### Added
