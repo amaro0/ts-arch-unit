@@ -1,3 +1,4 @@
+import path from 'path';
 import { Primitives, Token } from '../types';
 
 export abstract class QueryBuilder {
@@ -50,6 +51,14 @@ export abstract class QueryBuilder {
     return this;
   }
 
+  private resolveNegation(value: boolean): boolean {
+    if (this.isNegated) {
+      this.isNegated = false;
+      return !value;
+    }
+    return value;
+  }
+
   protected eq<T extends Primitives>(a: T, b: T): boolean {
     if (this.isNegated) {
       this.isNegated = false;
@@ -75,5 +84,15 @@ export abstract class QueryBuilder {
     }
 
     return otherQueryBuilder;
+  }
+
+  protected fileSystemPathMatch(rootPath: string, fsPath: string, token: Token): boolean {
+    if (typeof token === 'string') {
+      const fullPath = path.join(rootPath, token);
+      return this.resolveNegation(fullPath === fsPath);
+    }
+
+    const result = fsPath.match(token);
+    return this.resolveNegation(result === null);
   }
 }

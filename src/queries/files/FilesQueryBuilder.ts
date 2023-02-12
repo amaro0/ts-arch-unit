@@ -83,6 +83,20 @@ export class FilesQueryBuilder extends QueryBuilder {
     return this;
   }
 
+  resideInAPath(path: Token): this {
+    this.files = this.files.filter((f) => {
+      const filePath = f.getDirectoryPath();
+      console.log(filePath);
+      const eq = this.fileSystemPathMatch(this.projectMetaCrawler.rootPath, filePath, path);
+      if (!eq && this.isAssert) {
+        throw new Error(`File ${f.getBaseName()} is not in correct path ${path}`);
+      }
+      return eq;
+    });
+
+    return this;
+  }
+
   dependOnFiles(): this {
     this.isDependencyCheck = true;
 

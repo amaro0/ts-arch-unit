@@ -106,6 +106,14 @@ describe('files', () => {
     });
   });
 
+  describe('resideInADirectory', () => {
+    it('should pass when file is in dir', () => {
+      files()
+        .resideInAPath(/\/layered\/services\//)
+        .shouldExist();
+    });
+  });
+
   describe('dependOn', () => {
     it('should pass on dependency not reside in check', () => {
       files()
