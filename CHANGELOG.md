@@ -9,7 +9,11 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
-- files resideInAPath assert/filter
+- files resideInAPath() assert/filter/dependency check
+
+### Fixed
+
+- Files dependency check incorrect imports resolve
 
 ## [0.1.1] - 2023-02-11
 

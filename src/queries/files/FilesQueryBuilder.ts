@@ -120,15 +120,19 @@ export class FilesQueryBuilder extends QueryBuilder {
     this.files.forEach((f) => {
       const imports = f.getImportDeclarations();
       imports.forEach((i) => {
-        this.dependentFiles.push(i.getSourceFile());
+        const importedSourceFile = i.getModuleSpecifierSourceFile();
+
+        if (!importedSourceFile) return;
+
+        this.dependentFiles.push(importedSourceFile);
 
         // REMOVE IF NOT NEEDED
         const mapNode = this.fileDependencyMap.get(f.getFilePath());
         if (mapNode) {
-          this.fileDependencyMap.set(f.getFilePath(), [...mapNode, i.getSourceFile()]);
+          this.fileDependencyMap.set(f.getFilePath(), [...mapNode, importedSourceFile]);
           return;
         }
-        this.fileDependencyMap.set(f.getFilePath(), [i.getSourceFile()]);
+        this.fileDependencyMap.set(f.getFilePath(), [importedSourceFile]);
       });
     });
 
