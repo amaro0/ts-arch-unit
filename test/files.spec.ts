@@ -125,6 +125,23 @@ describe('files', () => {
         expect(e).not.to.eq(expectedError);
       }
     });
+
+    it('should work with assert mode', () => {
+      files()
+        .that()
+        .haveMatchingName('CorrectLayerService.ts')
+        .should()
+        .resideInAPath('/layered/services');
+    });
+
+    it('should work with negated assert mode', () => {
+      files()
+        .that()
+        .haveMatchingName('CorrectLayerController.ts')
+        .should()
+        .not()
+        .resideInAPath('/layered/services');
+    });
   });
 
   describe('dependOn', () => {
