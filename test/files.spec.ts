@@ -145,6 +145,16 @@ describe('files', () => {
   });
 
   describe('dependOn', () => {
+    it('should pass on dependency reside in check', () => {
+      files()
+        .that()
+        .resideInADirectory('controllers')
+        .should()
+        .dependOnFiles()
+        .that()
+        .resideInADirectory('services');
+    });
+
     it('should pass on dependency not reside in check', () => {
       files()
         .that()
@@ -195,6 +205,16 @@ describe('files', () => {
       } catch (e) {
         expect(e).not.to.eq(expectedError);
       }
+    });
+
+    it('should assert with path', () => {
+      files()
+        .that()
+        .haveMatchingName('CorrectLayerController.ts')
+        .should()
+        .dependOnFiles()
+        .that()
+        .resideInAPath('/layered/services');
     });
   });
 

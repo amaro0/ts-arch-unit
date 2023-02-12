@@ -84,6 +84,23 @@ export class FilesQueryBuilder extends QueryBuilder {
   }
 
   resideInAPath(path: Token): this {
+    if (this.isDependencyCheck) {
+      this.files.forEach((f) => {
+        const dependentFiles = this.fileDependencyMap.get(f.getFilePath());
+
+        dependentFiles?.forEach((df) => {
+          const filePath = df.getDirectoryPath();
+          if (!this.fileSystemPathMatch(this.projectMetaCrawler.rootPath, filePath, path)) {
+            throw new Error(
+              `File ${f.getBaseName()} depends on file from forbidden path ${df.getFilePath()}`,
+            );
+          }
+        });
+      });
+
+      return this;
+    }
+
     this.files = this.files.filter((f) => {
       const filePath = f.getDirectoryPath();
       console.log(filePath);
