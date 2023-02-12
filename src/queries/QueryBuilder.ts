@@ -1,4 +1,5 @@
-import path from 'path';
+import * as path from 'path';
+
 import { Primitives, Token } from '../types';
 
 export abstract class QueryBuilder {

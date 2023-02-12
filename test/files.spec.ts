@@ -107,10 +107,23 @@ describe('files', () => {
   });
 
   describe('resideInADirectory', () => {
-    it('should pass when file is in dir', () => {
+    it('should pass when file is in path', () => {
       files()
         .resideInAPath(/\/layered\/services\//)
         .shouldExist();
+    });
+
+    it('should pass when file is in path using string', () => {
+      files().resideInAPath('/layered/services').shouldExist();
+    });
+
+    it('should fail for incomplete path', () => {
+      try {
+        files().resideInAPath('/services').shouldExist();
+        throw expectedError;
+      } catch (e) {
+        expect(e).not.to.eq(expectedError);
+      }
     });
   });
 
