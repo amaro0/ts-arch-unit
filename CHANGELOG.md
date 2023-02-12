@@ -7,6 +7,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.1.2] - 2023-02-12
+
 ### Added
 
 - files resideInAPath() assert/filter/dependency check
