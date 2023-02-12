@@ -106,7 +106,55 @@ describe('files', () => {
     });
   });
 
+  describe('resideInADirectory', () => {
+    it('should pass when file is in path', () => {
+      files()
+        .resideInAPath(/\/layered\/services\//)
+        .shouldExist();
+    });
+
+    it('should pass when file is in path using string', () => {
+      files().resideInAPath('/layered/services').shouldExist();
+    });
+
+    it('should fail for incomplete path', () => {
+      try {
+        files().resideInAPath('/services').shouldExist();
+        throw expectedError;
+      } catch (e) {
+        expect(e).not.to.eq(expectedError);
+      }
+    });
+
+    it('should work with assert mode', () => {
+      files()
+        .that()
+        .haveMatchingName('CorrectLayerService.ts')
+        .should()
+        .resideInAPath('/layered/services');
+    });
+
+    it('should work with negated assert mode', () => {
+      files()
+        .that()
+        .haveMatchingName('CorrectLayerController.ts')
+        .should()
+        .not()
+        .resideInAPath('/layered/services');
+    });
+  });
+
   describe('dependOn', () => {
+    it('should pass on dependency reside in check', () => {
+      files()
+        .that()
+        .resideInADirectory('controllers')
+        .should()
+        .dependOnFiles()
+        .that()
+        .resideInADirectory('services');
+    });
+
     it('should pass on dependency not reside in check', () => {
       files()
         .that()
@@ -157,6 +205,16 @@ describe('files', () => {
       } catch (e) {
         expect(e).not.to.eq(expectedError);
       }
+    });
+
+    it('should assert with path', () => {
+      files()
+        .that()
+        .haveMatchingName('CorrectLayerController.ts')
+        .should()
+        .dependOnFiles()
+        .that()
+        .resideInAPath('/layered/services');
     });
   });
 

@@ -27,7 +27,7 @@ export class ProjectMetaCrawler {
 
   private tsMorphProject: Project;
 
-  constructor(root: string) {
+  constructor(private readonly root: string) {
     this.tsMorphProject = new Project();
     this.tsMorphProject.addSourceFilesAtPaths(`${root}/**/*{.d.ts,.ts,.js,.jsx,.tsx}`);
 
@@ -45,6 +45,10 @@ export class ProjectMetaCrawler {
       this.functions.set(sourceFileBaseName, { sourceFileBaseName, value: functions });
       this.functionsArr.push(...functions.map((f) => ({ sourceFileBaseName, value: f })));
     });
+  }
+
+  get rootPath(): string {
+    return this.root;
   }
 
   getDirectoryForClass(node: IDiscoveredNode<ClassDeclaration>): Directory {

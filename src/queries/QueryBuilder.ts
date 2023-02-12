@@ -1,3 +1,5 @@
+import * as path from 'path';
+
 import { Primitives, Token } from '../types';
 
 export abstract class QueryBuilder {
@@ -50,23 +52,22 @@ export abstract class QueryBuilder {
     return this;
   }
 
-  protected eq<T extends Primitives>(a: T, b: T): boolean {
+  private resolveNegation(value: boolean): boolean {
     if (this.isNegated) {
       this.isNegated = false;
-      return a !== b;
+      return !value;
     }
+    return value;
+  }
 
-    return a === b;
+  protected eq<T extends Primitives>(a: T, b: T): boolean {
+    return this.resolveNegation(a === b);
   }
 
   protected eqToken(name: string, token: Token): boolean {
     const isValid = typeof token === 'string' ? name === token : token.test(name);
 
-    if (this.isNegated) {
-      this.isNegated = false;
-      return !isValid;
-    }
-    return isValid;
+    return this.resolveNegation(isValid);
   }
 
   protected chainNot<T extends QueryBuilder>(otherQueryBuilder: T): T {
@@ -75,5 +76,15 @@ export abstract class QueryBuilder {
     }
 
     return otherQueryBuilder;
+  }
+
+  protected fileSystemPathMatch(rootPath: string, fsPath: string, token: Token): boolean {
+    if (typeof token === 'string') {
+      const fullPath = path.join(rootPath, token);
+      return this.resolveNegation(fullPath === fsPath);
+    }
+
+    const result = fsPath.match(token);
+    return this.resolveNegation(result === null);
   }
 }

@@ -83,21 +83,55 @@ export class FilesQueryBuilder extends QueryBuilder {
     return this;
   }
 
+  resideInAPath(path: Token): this {
+    if (this.isDependencyCheck) {
+      this.files.forEach((f) => {
+        const dependentFiles = this.fileDependencyMap.get(f.getFilePath());
+
+        dependentFiles?.forEach((df) => {
+          const filePath = df.getDirectoryPath();
+          if (!this.fileSystemPathMatch(this.projectMetaCrawler.rootPath, filePath, path)) {
+            throw new Error(
+              `File ${f.getBaseName()} depends on file from forbidden path ${df.getFilePath()}`,
+            );
+          }
+        });
+      });
+
+      return this;
+    }
+
+    this.files = this.files.filter((f) => {
+      const filePath = f.getDirectoryPath();
+      const eq = this.fileSystemPathMatch(this.projectMetaCrawler.rootPath, filePath, path);
+      if (!eq && this.isAssert) {
+        throw new Error(`File ${f.getBaseName()} is not in correct path ${path}`);
+      }
+      return eq;
+    });
+
+    return this;
+  }
+
   dependOnFiles(): this {
     this.isDependencyCheck = true;
 
     this.files.forEach((f) => {
       const imports = f.getImportDeclarations();
       imports.forEach((i) => {
-        this.dependentFiles.push(i.getSourceFile());
+        const importedSourceFile = i.getModuleSpecifierSourceFile();
+
+        if (!importedSourceFile) return;
+
+        this.dependentFiles.push(importedSourceFile);
 
         // REMOVE IF NOT NEEDED
         const mapNode = this.fileDependencyMap.get(f.getFilePath());
         if (mapNode) {
-          this.fileDependencyMap.set(f.getFilePath(), [...mapNode, i.getSourceFile()]);
+          this.fileDependencyMap.set(f.getFilePath(), [...mapNode, importedSourceFile]);
           return;
         }
-        this.fileDependencyMap.set(f.getFilePath(), [i.getSourceFile()]);
+        this.fileDependencyMap.set(f.getFilePath(), [importedSourceFile]);
       });
     });
 
