@@ -106,7 +106,7 @@ describe('files', () => {
     });
   });
 
-  describe('resideInADirectory', () => {
+  describe('resideInAPath', () => {
     it('should pass when file is in path', () => {
       files()
         .resideInAPath(/\/layered\/services\//)
