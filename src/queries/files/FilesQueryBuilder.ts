@@ -20,6 +20,9 @@ export class FilesQueryBuilder extends QueryBuilder {
     this.files = Array.from(projectMetaCrawler.sourceFiles);
   }
 
+  /**
+   * Filters or asserts files by method name.
+   */
   haveMatchingName(token: Token): this {
     if (this.isDependencyCheck) {
       this.files.forEach((f) => {
@@ -47,12 +50,18 @@ export class FilesQueryBuilder extends QueryBuilder {
     return this;
   }
 
+  /**
+   * Asserts that there are files for selected filters.
+   */
   shouldExist(): this {
     if (!this.files.length) throw new Error('No files exists');
 
     return this;
   }
 
+  /**
+   * Filters or asserts files by directory.
+   */
   resideInADirectory(token: Token): this {
     if (this.isDependencyCheck) {
       this.files.forEach((f) => {
@@ -83,6 +92,9 @@ export class FilesQueryBuilder extends QueryBuilder {
     return this;
   }
 
+  /**
+   * Filters or asserts files by path.
+   */
   resideInAPath(path: Token): this {
     if (this.isDependencyCheck) {
       this.files.forEach((f) => {
@@ -138,6 +150,9 @@ export class FilesQueryBuilder extends QueryBuilder {
     return this;
   }
 
+  /**
+   * Filters or asserts files with exported classes.
+   */
   exportClass(): this {
     this.files = this.files.filter((f) => {
       const isClassExported = f.getClasses().some((cd) => cd.isExported());
@@ -153,6 +168,9 @@ export class FilesQueryBuilder extends QueryBuilder {
     return this;
   }
 
+  /**
+   * Filters or asserts files with exported interfaces.
+   */
   exportInterface(): this {
     this.files = this.files.filter((f) => {
       const isInterfaceExported = f.getInterfaces().some((i) => i.isExported());
@@ -168,6 +186,9 @@ export class FilesQueryBuilder extends QueryBuilder {
     return this;
   }
 
+  /**
+   * Filters or asserts files with exported types.
+   */
   exportType(): this {
     this.files = this.files.filter((f) => {
       const isTypeExported = f.getTypeAliases().some((te) => te.isExported());
@@ -183,6 +204,9 @@ export class FilesQueryBuilder extends QueryBuilder {
     return this;
   }
 
+  /**
+   * Filters or asserts files with exported symbols.
+   */
   exportSymbol(): this {
     this.files = this.files.filter((f) => {
       const isSymbolExported = f.getVariableDeclarations().some((v) => {
@@ -200,6 +224,9 @@ export class FilesQueryBuilder extends QueryBuilder {
     return this;
   }
 
+  /**
+   * Filters or asserts files with exported functions.
+   */
   exportFunction(): this {
     this.files = this.files.filter((f) => {
       const isFunctionExported = f.getFunctions().some((func) => func.isExported());
