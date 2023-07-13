@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { files } from '../src';
+import { classes, files } from '../src';
 
 describe('files', () => {
   const expectedError = new Error('Expected error');
@@ -414,6 +414,33 @@ describe('files', () => {
       it('should pass for not exported symbol', () => {
         files().that().haveMatchingName('nothingExported.ts').should().not().exportFunction();
       });
+    });
+  });
+
+  describe('excludedByMatchingName', () => {
+    it('should exclude many', async () => {
+      try {
+        files()
+          .that()
+          .haveMatchingName(/CommandHandler/)
+          .and()
+          .are()
+          .excludedByMatchingName(/CommandHandler/)
+          .shouldExist();
+        throw expectedError;
+      } catch (e) {
+        expect(e).not.to.eq(expectedError);
+      }
+    });
+
+    it('should exclude only one', async () => {
+      files()
+        .that()
+        .haveMatchingName(/CommandHandler/)
+        .and()
+        .are()
+        .excludedByMatchingName('CreateUserCommandHandler')
+        .shouldExist();
     });
   });
 });

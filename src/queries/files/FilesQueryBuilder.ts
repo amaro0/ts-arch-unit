@@ -219,4 +219,15 @@ export class FilesQueryBuilder extends QueryBuilder {
 
     return this;
   }
+
+  /**
+   * Excludes files from future asserts by name.
+   */
+  excludedByMatchingName(token: Token): this {
+    this.files = this.files.filter((cd) => {
+      return !this.eqToken(cd.getBaseName(), token);
+    });
+
+    return this;
+  }
 }
