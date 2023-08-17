@@ -443,4 +443,31 @@ describe('files', () => {
         .shouldExist();
     });
   });
+
+  describe('excludedByPath', () => {
+    it('should exclude many', async () => {
+      try {
+        files()
+          .that()
+          .haveMatchingName(/CommandHandler/)
+          .and()
+          .are()
+          .excludedByPath(/CommandHandler/)
+          .shouldExist();
+        throw expectedError;
+      } catch (e) {
+        expect(e).not.to.eq(expectedError);
+      }
+    });
+
+    it('should exclude only one', async () => {
+      files()
+        .that()
+        .haveMatchingName(/CommandHandler/)
+        .and()
+        .are()
+        .excludedByPath('CreateUserCommandHandler')
+        .shouldExist();
+    });
+  });
 });
