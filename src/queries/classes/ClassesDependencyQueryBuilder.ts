@@ -41,12 +41,18 @@ export class ClassesDependencyQueryBuilder extends QueryBuilder {
     return this;
   }
 
+  /**
+   * Not implemented yet.
+   */
   onThingsThatResideOutsideOfDirectory(): this {
-    return this;
+    throw new Error('Method not implemented.');
   }
 
+  /**
+   * Not implemented yet.
+   */
   onThingsThatAreInADirectory(): this {
-    return this;
+    throw new Error('Method not implemented.');
   }
 
   private getDependenciesSymbolsOfClass(cd: ClassDeclaration): Symbol[] {
