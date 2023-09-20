@@ -60,6 +60,15 @@ export class FilesQueryBuilder extends QueryBuilder {
   }
 
   /**
+   * Asserts that there are no files for selected filters.
+   */
+  shouldNotExist(): this {
+    if (this.files.length) throw new Error('Files do exists');
+
+    return this;
+  }
+
+  /**
    * Filters or asserts files by directory.
    */
   resideInADirectory(token: Token): this {
@@ -251,8 +260,8 @@ export class FilesQueryBuilder extends QueryBuilder {
    * Excludes files from future asserts by name.
    */
   excludedByMatchingName(token: Token): this {
-    this.files = this.files.filter((cd) => {
-      return !this.eqToken(cd.getBaseName(), token);
+    this.files = this.files.filter((f) => {
+      return !this.eqToken(f.getBaseName(), token);
     });
 
     return this;
@@ -262,8 +271,8 @@ export class FilesQueryBuilder extends QueryBuilder {
    * Excludes files from future asserts by name.
    */
   excludedByPath(token: Token): this {
-    this.files = this.files.filter((cd) => {
-      return !this.eqToken(cd.getBaseName(), token);
+    this.files = this.files.filter((f) => {
+      return !this.eqToken(f.getDirectoryPath(), token);
     });
 
     return this;

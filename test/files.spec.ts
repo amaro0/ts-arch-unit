@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 
 import { classes, files } from '../src';
+import { UsersController } from '../test-src/domains/users/app/UsersController';
 
 describe('files', () => {
   const expectedError = new Error('Expected error');
@@ -445,14 +446,14 @@ describe('files', () => {
   });
 
   describe('excludedByPath', () => {
-    it('should exclude many', async () => {
+    it('should exclude all', async () => {
       try {
         files()
           .that()
           .haveMatchingName(/CommandHandler/)
           .and()
           .are()
-          .excludedByPath(/CommandHandler/)
+          .excludedByPath(/\/test-src/)
           .shouldExist();
         throw expectedError;
       } catch (e) {
@@ -463,11 +464,11 @@ describe('files', () => {
     it('should exclude only one', async () => {
       files()
         .that()
-        .haveMatchingName(/CommandHandler/)
+        .haveMatchingName(/UsersController/)
         .and()
         .are()
-        .excludedByPath('CreateUserCommandHandler')
-        .shouldExist();
+        .excludedByPath(/\/domains\/users\/app/)
+        .shouldNotExist();
     });
   });
 });
