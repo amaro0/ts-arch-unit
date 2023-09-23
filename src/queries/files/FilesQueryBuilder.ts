@@ -279,13 +279,31 @@ export class FilesQueryBuilder extends QueryBuilder {
   }
 
   /**
-   * Filters or asserts files by places where they are imported.
+   * Filters or asserts files by paths where they are imported.
    */
   importedOutsideOfPath(token: Token): this {
     this.files = this.files.filter((f) => {
       const referencingFiles = f.getReferencingSourceFiles();
       return referencingFiles.some((rf) => {
         const isEq = this.eqToken(rf.getDirectoryPath(), token);
+        if (isEq && this.isAssert) {
+          throw new Error(`File ${f.getFilePath()} is imported in ${token}`);
+        }
+        return isEq;
+      });
+    });
+
+    return this;
+  }
+
+  /**
+   * Filters or asserts files by directory names where they are imported.
+   */
+  importedOutsideOfDirectory(token: Token): this {
+    this.files = this.files.filter((f) => {
+      const referencingFiles = f.getReferencingSourceFiles();
+      return referencingFiles.some((rf) => {
+        const isEq = this.eqToken(rf.getDirectory().getBaseName(), token);
         if (isEq && this.isAssert) {
           throw new Error(`File ${f.getFilePath()} is imported in ${token}`);
         }

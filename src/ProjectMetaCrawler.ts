@@ -10,7 +10,7 @@ import {
 } from 'ts-morph';
 
 import { findDeepNode } from './astUtilities';
-import { IDiscoveredNode, Token } from './types';
+import { IDiscoveredNode } from './types';
 
 export class ProjectMetaCrawler {
   sourceFiles: SourceFile[];

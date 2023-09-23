@@ -471,7 +471,7 @@ describe('files', () => {
     });
   });
 
-  describe('importedOutsideOf', () => {
+  describe('importedOutsideOfPath', () => {
     it('should filter files imported outside', async () => {
       files()
         .that()
@@ -499,6 +499,37 @@ describe('files', () => {
         .should()
         .be()
         .importedOutsideOfPath(/\/modules\/imported-outside-module/);
+    });
+  });
+
+  describe('importedOutsideOfDirectory', () => {
+    it('should filter files imported outside', async () => {
+      files()
+        .that()
+        .haveMatchingName(/Controller/)
+        .and()
+        .are()
+        .importedOutsideOfDirectory('app')
+        .shouldExist();
+    });
+
+    it('should assert files not imported outside', async () => {
+      files()
+        .that()
+        .resideInADirectory('not-imported-outside-module')
+        .should()
+        .not()
+        .be()
+        .importedOutsideOfPath('modules');
+    });
+
+    it('should assert files imported outside', async () => {
+      files()
+        .that()
+        .resideInADirectory('imported-outside-module')
+        .should()
+        .be()
+        .importedOutsideOfPath('modules');
     });
   });
 });
