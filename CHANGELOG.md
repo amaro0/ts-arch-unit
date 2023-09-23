@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0](https://github.com/amaro0/ts-arch-unit/compare/v0.2.3...v0.3.0) (2023-09-23)
+
+
+### Features
+
+* add files imported outside of path filter and assert ([bd1e82f](https://github.com/amaro0/ts-arch-unit/commit/bd1e82f7c70ecb78dd8a3bcafd32820f08b1fb7b))
+* add files importedOutsideOfCurrentDirectory method ([2808b2b](https://github.com/amaro0/ts-arch-unit/commit/2808b2b5497bd193a7061d6dadd3586af45c4c68))
+* add files importedOutsideOfDirectory method ([c51d119](https://github.com/amaro0/ts-arch-unit/commit/c51d119161ac35a58102b827d0cfa1e8fdc7b8f6))
+
 ## [0.2.3](https://github.com/amaro0/ts-arch-unit/compare/v0.2.2...v0.2.3) (2023-09-20)
 
 
