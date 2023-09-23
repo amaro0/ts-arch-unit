@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 
-import { classes, files } from '../src';
-import { UsersController } from '../test-src/domains/users/app/UsersController';
+import { files } from '../src';
 
 describe('files', () => {
   const expectedError = new Error('Expected error');
@@ -469,6 +468,37 @@ describe('files', () => {
         .are()
         .excludedByPath(/\/domains\/users\/app/)
         .shouldNotExist();
+    });
+  });
+
+  describe('importedOutsideOf', () => {
+    it('should filter files imported outside', async () => {
+      files()
+        .that()
+        .haveMatchingName(/Controller/)
+        .and()
+        .are()
+        .importedOutsideOfPath(/\/domains\/users/)
+        .shouldExist();
+    });
+
+    it('should assert files not imported outside', async () => {
+      files()
+        .that()
+        .resideInADirectory('not-imported-outside-module')
+        .should()
+        .not()
+        .be()
+        .importedOutsideOfPath(/\/modules\/not-imported-outside-module/);
+    });
+
+    it('should assert files imported outside', async () => {
+      files()
+        .that()
+        .resideInADirectory('imported-outside-module')
+        .should()
+        .be()
+        .importedOutsideOfPath(/\/modules\/imported-outside-module/);
     });
   });
 });
