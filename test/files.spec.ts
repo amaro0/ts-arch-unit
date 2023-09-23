@@ -485,11 +485,11 @@ describe('files', () => {
     it('should assert files not imported outside', async () => {
       files()
         .that()
-        .resideInADirectory('not-imported-outside-module')
+        .resideInADirectory('non-imported-outside-module')
         .should()
         .not()
         .be()
-        .importedOutsideOfPath(/\/modules\/not-imported-outside-module/);
+        .importedOutsideOfPath(/\/modules\/non-imported-outside-module/);
     });
 
     it('should assert files imported outside', async () => {
@@ -516,11 +516,11 @@ describe('files', () => {
     it('should assert files not imported outside', async () => {
       files()
         .that()
-        .resideInADirectory('not-imported-outside-module')
+        .resideInADirectory('non-imported-outside-module')
         .should()
         .not()
         .be()
-        .importedOutsideOfPath('modules');
+        .importedOutsideOfDirectory('non-imported-outside-module');
     });
 
     it('should assert files imported outside', async () => {
@@ -529,7 +529,28 @@ describe('files', () => {
         .resideInADirectory('imported-outside-module')
         .should()
         .be()
-        .importedOutsideOfPath('modules');
+        .importedOutsideOfDirectory('imported-outside-module');
+    });
+  });
+
+  describe('importedOutsideOfCurrentDirectory', () => {
+    it('should assert files not imported outside', async () => {
+      files()
+        .that()
+        .resideInADirectory('non-imported-outside-module')
+        .should()
+        .not()
+        .be()
+        .importedOutsideOfCurrentDirectory();
+    });
+
+    it('should assert files imported outside', async () => {
+      files()
+        .that()
+        .resideInADirectory('imported-outside-module')
+        .should()
+        .be()
+        .importedOutsideOfCurrentDirectory();
     });
   });
 });

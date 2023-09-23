@@ -313,4 +313,22 @@ export class FilesQueryBuilder extends QueryBuilder {
 
     return this;
   }
+
+  /**
+   * Filters or asserts files by imports from current outside current directory
+   */
+  importedOutsideOfCurrentDirectory(): this {
+    this.files = this.files.filter((f) => {
+      const referencingFiles = f.getReferencingSourceFiles();
+      return referencingFiles.some((rf) => {
+        const isEq = this.eq(rf.getDirectoryPath(), f.getDirectoryPath());
+        if (isEq && this.isAssert) {
+          throw new Error(`File ${f.getFilePath()} is imported outside of it's current directory`);
+        }
+        return isEq;
+      });
+    });
+
+    return this;
+  }
 }
